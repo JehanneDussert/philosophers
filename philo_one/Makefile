@@ -2,9 +2,9 @@ NAME = philo_one
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3 -pthread
 
-SRCS = main.c ft_utils.c
+SRCS = main.c ft_utils.c ft_print.c ft_pthread.c
 
 OBJS	= ${SRCS:.c=.o}
 

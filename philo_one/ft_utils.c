@@ -1,21 +1,52 @@
 #include "philo_one.h"
 
-void	ft_putendl(char *str)
+int		ft_atoi(const char *str)
 {
-	int i;
+	int				i;
+	unsigned int	result;
 
 	i = 0;
-	while (str[i++])
-		write(1, &str[i], 1);
-	write(1, "\n", 1);
+	result = 0;
+	while (str[i] != '\0' && (str[i] == '\t' || str[i] == '\n' ||
+		str[i] == '\v' || str[i] == '\f' || str[i] == '\r' ||
+		str[i] == ' '))
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = (result * 10) + (str[i] - '0');
+		i++;
+	}
+	return (result);
 }
 
-void	ft_init_struct(char **argv, t_struct *struct)
+void	*ft_calloc(size_t count, size_t size)
 {
-	struct->nb_of_philo = argv[1];
-	struct->time_to_die = argv[2];
-	struct->time_to_eat = argv[3];
-	struct->time_to_sleep argv[4];
+	char	*r;
+	size_t	i;
+
+	i = 0;
+	if (!size || !count)
+	{
+		size = 1;
+		count = 1;
+	}
+	if (!(r = malloc(count * size)))
+		return (NULL);
+	while (i < (size * count))
+	{
+		*(char *)r = '\0';
+		r++;
+		i++;
+	}
+	return (r - i);
+}
+
+void	ft_init_philo(char **argv, t_philo *philo)
+{
+	philo->nb_of_philo = ft_atoi(argv[1]);
+	philo->time_to_die = ft_atoi(argv[2]);
+	philo->time_to_eat = ft_atoi(argv[3]);
+	philo->time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5])
-		struct->nb_of_time_eat = argv[5];
+		philo->nb_of_time_eat = ft_atoi(argv[5]);
 }

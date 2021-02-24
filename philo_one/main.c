@@ -19,14 +19,24 @@
 
 // Philo se voit assigne un numero de 1 a nb_of_philosopher
 
+void    ft_start(char **argv)
+{
+    t_philo	*philo;
+    int     nb_philo;
+
+	nb_philo = ft_atoi(argv[1]);
+	philo = ft_calloc(nb_philo + 2, sizeof(t_philo *));
+	if (!philo)
+		return ;
+	ft_init_philo(argv, philo);
+    free(philo);
+}
+
 int	main(int argc, char **argv)
 {
-    t_struct	struct;
-
-	ft_init_struct(char **argv, &struct);
-	if (argc < 4 || argc > 6)
+	if (argc < 5 || argc > 6)
         ft_putendl("[ERROR] Wrong number of arguments.");
     else
-        ft_putendl("ok");//prog
+        ft_start(argv);
     return (0);
 }

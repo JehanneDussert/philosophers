@@ -3,6 +3,9 @@
 
 # Object files
 *.o
+philo_one/*.o
+philo_two/*.o
+philo_three/*.o
 *.ko
 *.obj
 *.elf
