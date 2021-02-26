@@ -19,17 +19,75 @@
 
 // Philo se voit assigne un numero de 1 a nb_of_philosopher
 
+/*
+Functions :
+
+void * memset(void *b, int c, size_t len);
+The memset() function writes len bytes of value c (converted to an unsigned char) to the string b.
+
+int usleep(useconds_t microseconds);
+The usleep() function suspends execution of the calling thread until either microseconds
+
+int gettimeofday(struct timeval *restrict tp, void *restrict tzp);
+
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
+
+*/
+
+void    ft_time(void)
+{
+    int i = 0;
+    struct timeval time_before;
+    struct timeval time_after;
+    gettimeofday(&time_before, NULL);
+    while (i++ < 100)
+    {
+        gettimeofday(&time_after, NULL);
+        printf("%ld\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
+    }
+    gettimeofday(&time_after, NULL);
+    printf("%ld\n\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
+    
+}
+
+void *thread_1(void *arg) 
+{
+    (void)arg;
+	printf("Nous sommes dans le thread.\n");
+	// Arrêt propre du thread
+	pthread_exit(EXIT_SUCCESS);
+}
+
+void    ft_thread(void)
+{
+    pthread_t thread1;
+	printf("Avant la création du thread.\n");
+	// Création du thread
+	pthread_create(&thread1, NULL, thread_1, NULL);
+	printf("Après la création du thread.\n");
+
+}
+
 void    ft_start(char **argv)
 {
-    t_philo	*philo;
+    t_philo	**all_philo;
     int     nb_philo;
+    int     i;
 
+    i = -1;
 	nb_philo = ft_atoi(argv[1]);
-	philo = ft_calloc(nb_philo + 2, sizeof(t_philo *));
-	if (!philo)
+    all_philo = ft_calloc((nb_philo + 1), sizeof(*all_philo));
+    while (++i < nb_philo)
+    {
+	    all_philo[i] = ft_calloc(nb_philo + 1, sizeof(t_philo));
+	    ft_init_philo(argv, all_philo[i]);
+    }
+    all_philo[nb_philo] = NULL;
+	if (!all_philo)
 		return ;
-	ft_init_philo(argv, philo);
-    free(philo);
+    //ft_time();
+    ft_thread();
+    //free(philo);
 }
 
 int	main(int argc, char **argv)
