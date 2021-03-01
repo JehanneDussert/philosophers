@@ -31,7 +31,23 @@ The usleep() function suspends execution of the calling thread until either micr
 int gettimeofday(struct timeval *restrict tp, void *restrict tzp);
 
 int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
+-> demarre nouveau thread dans processus appelant, le thread commence par appeler fct start_routine, arg = son seul argument
+-> se termine avec return (valeur a return)
 
+ int pthread_detach(pthread_t thread);
+ -> detacher un thread
+
+*/
+
+/*
+    le mutex va me permettre de proteger les fourchettes pour que les philosophes ne se les volent pas
+    il faudrait un thread / philosophe qui va permettre de realiser les actions :
+    - prend les fourchettes
+    - mange
+    - dort
+    - pense
+    - meurt
+    + afficher les millisecondes
 */
 
 void    ft_time(void)
@@ -52,8 +68,8 @@ void    ft_time(void)
 
 void *thread_1(void *arg) 
 {
-    (void)arg;
-	printf("Nous sommes dans le thread.\n");
+    //printf("enter\n");
+	printf("%s\n", arg);
 	// Arrêt propre du thread
 	pthread_exit(EXIT_SUCCESS);
 }
@@ -61,9 +77,10 @@ void *thread_1(void *arg)
 void    ft_thread(void)
 {
     pthread_t thread1;
+
 	printf("Avant la création du thread.\n");
 	// Création du thread
-	pthread_create(&thread1, NULL, thread_1, NULL);
+	pthread_create(&thread1, NULL, thread_1, thread1);
 	printf("Après la création du thread.\n");
 
 }

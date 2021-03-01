@@ -9,13 +9,7 @@ SRCS = main.c ft_utils.c ft_print.c ft_pthread.c
 OBJS	= ${SRCS:.c=.o}
 
 $(NAME)	:	${OBJS} 
-		${CC} ${CFLAGS} -o ${NAME} ${OBJS} -L
-
-$(LIBFT_PATH)$(LIBFT): ${LIBFT_FILES}
-	make all -C ${LIBFT_PATH}
-
-${MINILIBX_PATH}${MINILIBX} : ${MINILIBX_FILES}
-	make -C ${MINILIBX_PATH}
+		${CC} ${CFLAGS} -o ${NAME} ${OBJS}
 
 all : ${NAME}
 
