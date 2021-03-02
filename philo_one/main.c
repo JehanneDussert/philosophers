@@ -63,15 +63,31 @@ void    ft_time(void)
     }
     gettimeofday(&time_after, NULL);
     printf("%ld\n\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
-    
 }
 
-void *thread_1(void *arg) 
+void	*thread_1(void *arg) 
 {
-    //printf("enter\n");
-	printf("%s\n", arg);
+	(void)arg;
+	struct timeval time_before;
+	struct timeval time_after;
+	void	*ret;
+	int i = 0;
+
+	printf("%s\n", "Enter");
+    gettimeofday(&time_before, NULL);
+    while (i++ < 100)
+    {
+        gettimeofday(&time_after, NULL);
+        printf("%ld\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
+    }
+    gettimeofday(&time_after, NULL);
+    printf("%ld\n\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
 	// Arrêt propre du thread
-	pthread_exit(EXIT_SUCCESS);
+	//pthread_exit(EXIT_SUCCESS);
+	ret = (void *)time_after.tv_sec;
+	printf("ici\n");
+	printf("Ret :%ld\n", time_after.tv_sec);
+	return (0);
 }
 
 void    ft_thread(void)
@@ -94,16 +110,18 @@ void    ft_start(char **argv)
     i = -1;
 	nb_philo = ft_atoi(argv[1]);
     all_philo = ft_calloc((nb_philo + 1), sizeof(*all_philo));
+    if (!all_philo)
+        return ;
     while (++i < nb_philo)
     {
 	    all_philo[i] = ft_calloc(nb_philo + 1, sizeof(t_philo));
+        if (!all_philo[i])
+            return ;
 	    ft_init_philo(argv, all_philo[i]);
     }
     all_philo[nb_philo] = NULL;
-	if (!all_philo)
-		return ;
-    //ft_time();
-    ft_thread();
+    ft_time();
+    //ft_thread();
     //free(philo);
 }
 
