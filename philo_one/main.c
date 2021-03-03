@@ -67,37 +67,45 @@ void    ft_time(void)
 
 void	*thread_1(void *arg) 
 {
-	(void)arg;
 	struct timeval time_before;
 	struct timeval time_after;
-	void	*ret;
-	int i = 0;
+    t_philo **all_philo;
+    int     i;
 
-	printf("%s\n", "Enter");
+    i = 0;
+    all_philo = (t_philo **)arg;
     gettimeofday(&time_before, NULL);
-    while (i++ < 100)
+    while (++i <= all_philo[0]->nb_of_philo)
     {
         gettimeofday(&time_after, NULL);
-        printf("%ld\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
+        printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
+        printf("\tPhilo %d has taken a fork\n", i);
+        gettimeofday(&time_after, NULL);
+        printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
+        printf("\tPhilo %d is eating\n", i);
+        gettimeofday(&time_after, NULL);
+        printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
+        printf("\tPhilo %d is sleeping\n", i);
+        gettimeofday(&time_after, NULL);
+        printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
+        printf("\tPhilo %d is thinking\n", i);
     }
     gettimeofday(&time_after, NULL);
-    printf("%ld\n\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
-	// Arrêt propre du thread
+    printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
+	printf("\tPhilo %d has taken a fork\n", i);
+    // Arrêt propre du thread
 	//pthread_exit(EXIT_SUCCESS);
-	ret = (void *)time_after.tv_sec;
-	printf("ici\n");
-	printf("Ret :%ld\n", time_after.tv_sec);
 	return (0);
 }
 
-void    ft_thread(void)
+void    ft_thread(t_philo **all_philo)
 {
     pthread_t thread1;
 
-	printf("Avant la création du thread.\n");
+	//printf("Avant la création du thread.\n");
 	// Création du thread
-	pthread_create(&thread1, NULL, thread_1, thread1);
-	printf("Après la création du thread.\n");
+	pthread_create(&thread1, NULL, thread_1, all_philo);
+	//printf("Après la création du thread.\n");
 
 }
 
@@ -120,8 +128,8 @@ void    ft_start(char **argv)
 	    ft_init_philo(argv, all_philo[i]);
     }
     all_philo[nb_philo] = NULL;
-    ft_time();
-    //ft_thread();
+    //ft_time();
+    ft_thread(all_philo);
     //free(philo);
 }
 
