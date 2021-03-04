@@ -41,8 +41,13 @@ void	*ft_calloc(size_t count, size_t size)
 	return (r - i);
 }
 
-void	ft_init_philo(char **argv, t_philo *philo)
+void	ft_init_philo(char **argv, t_philo *philo, int i)
 {
+	philo->id = i + 1;
+	philo->time_after.tv_sec = 0;
+	philo->time.tv_sec = 0;
+	philo->time_after.tv_usec = 0;
+	philo->time.tv_usec = 0;
 	philo->nb_of_philo = ft_atoi(argv[1]);
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);

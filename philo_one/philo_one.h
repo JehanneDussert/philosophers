@@ -14,10 +14,14 @@ typedef struct  s_philo
 	int	time_to_eat;
 	int time_to_sleep;
 	int	nb_of_time_eat;
+	int	id;
+	struct timeval time_before;
+	struct timeval time_after;
+	struct timeval time;
 }               t_philo;
 
 void    ft_putendl(char *str);
-void	ft_init_philo(char **argv, t_philo *philo);
+void	ft_init_philo(char **argv, t_philo *philo, int i);
 int		ft_atoi(const char *str);
 void	*ft_calloc(size_t count, size_t size);
 

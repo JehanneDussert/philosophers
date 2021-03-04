@@ -64,7 +64,7 @@ void    ft_time(void)
     gettimeofday(&time_after, NULL);
     printf("%ld\n\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
 }
-
+/*
 void	*thread_1(void *arg) 
 {
 	struct timeval time_before;
@@ -75,38 +75,67 @@ void	*thread_1(void *arg)
     i = 0;
     all_philo = (t_philo **)arg;
     gettimeofday(&time_before, NULL);
-    while (++i <= all_philo[0]->nb_of_philo)
+    while (++i < all_philo[0]->nb_of_philo)
     {
         gettimeofday(&time_after, NULL);
         printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
         printf("\tPhilo %d has taken a fork\n", i);
-        gettimeofday(&time_after, NULL);
         printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
         printf("\tPhilo %d is eating\n", i);
-        gettimeofday(&time_after, NULL);
+        time_after.tv_usec += all_philo[i]->time_to_eat;
         printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
         printf("\tPhilo %d is sleeping\n", i);
-        gettimeofday(&time_after, NULL);
+		time_after.tv_usec += all_philo[i]->time_to_sleep;
         printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
         printf("\tPhilo %d is thinking\n", i);
     }
-    gettimeofday(&time_after, NULL);
-    printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
-	printf("\tPhilo %d has taken a fork\n", i);
-    // Arrêt propre du thread
-	//pthread_exit(EXIT_SUCCESS);
 	return (0);
 }
 
 void    ft_thread(t_philo **all_philo)
 {
-    pthread_t thread1;
+    pthread_t	thread1;
 
-	//printf("Avant la création du thread.\n");
-	// Création du thread
 	pthread_create(&thread1, NULL, thread_1, all_philo);
-	//printf("Après la création du thread.\n");
+}*/
 
+void	*thread_1(void *arg) 
+{
+	struct timeval	time_before;
+	struct timeval	time_after;
+	t_philo			*all_philo;
+
+	all_philo = (t_philo *)arg;
+	time_before = all_philo->time_before;
+	time_after = all_philo->time_after;
+	all_philo->time_after = all_philo->time_before;
+	printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + (time_after.tv_usec - time_before.tv_usec)));
+	printf("\tPhilo %d has taken a fork\n", all_philo->id);
+	printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + (time_after.tv_usec - time_before.tv_usec)));
+	printf("\tPhilo %d is eating\n", all_philo->id);
+	time_after.tv_usec += all_philo->time_to_eat;
+	printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + (time_after.tv_usec - time_before.tv_usec)));
+	printf("\tPhilo %d is sleeping\n", all_philo->id);
+	time_after.tv_usec += all_philo->time_to_sleep;
+	printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + (time_after.tv_usec - time_before.tv_usec)));
+	printf("\tPhilo %d is thinking\n", all_philo->id);
+	return (0);
+}
+
+void    ft_thread(t_philo **all_philo)
+{
+    pthread_t	thread1;
+	int			i;
+
+	i = -1;
+    gettimeofday(&all_philo[i + 1]->time_before, NULL);
+	gettimeofday(&all_philo[i + 1]->time_after, NULL);
+	while (++i < all_philo[0]->nb_of_philo)
+	{
+		usleep(200);
+		pthread_create(&thread1, NULL, thread_1, all_philo[i]);
+		usleep(200);
+	}
 }
 
 void    ft_start(char **argv)
@@ -125,7 +154,7 @@ void    ft_start(char **argv)
 	    all_philo[i] = ft_calloc(nb_philo + 1, sizeof(t_philo));
         if (!all_philo[i])
             return ;
-	    ft_init_philo(argv, all_philo[i]);
+	    ft_init_philo(argv, all_philo[i], i);
     }
     all_philo[nb_philo] = NULL;
     //ft_time();
@@ -138,6 +167,9 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
         ft_putendl("[ERROR] Wrong number of arguments.");
     else
+    {
         ft_start(argv);
+        usleep(10000);
+    }
     return (0);
 }
