@@ -5,7 +5,7 @@ void	*ft_eat(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-
+	return (0);
 }
 
 void	*ft_sleep(void *arg)
@@ -13,7 +13,7 @@ void	*ft_sleep(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-
+	return (0);
 }
 
 void	*ft_think(void *arg)
@@ -21,7 +21,7 @@ void	*ft_think(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-
+	return (0);
 }
 
 void	*ft_routine(void *arg)
