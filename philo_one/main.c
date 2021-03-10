@@ -74,7 +74,7 @@ void    ft_init_thread(t_philo **all_philo, t_params *params)
 		i++;
 		// dans le create on va prevoir si i % 2 ou si !i% 2 ou si !i % 2 && i == nb_philo
 	}
-	// un mutex ?
+	// un-mutex ?
 	i = 0;
 	while (++i < params->nb_of_philo)
 	{

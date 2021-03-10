@@ -7,16 +7,17 @@
 #include <pthread.h>
 #include <sys/time.h>
 
-typedef struct  s_philo
+typedef struct	s_philo
 {
-	int	nb_of_philo;
-	int	time_to_die;
-	int	time_to_eat;
-	int time_to_sleep;
-	int	nb_of_time_eat;
-	int	id;
-	int	index;
-}               t_philo;
+	int			nb_of_philo;
+	int			time_to_die;
+	int			time_to_eat;
+	int 		time_to_sleep;
+	int			nb_of_time_eat;
+	int			id;
+	int			index;
+	pthread_t	thread;
+}				t_philo;
 
 typedef struct  s_params
 {
