@@ -50,97 +50,45 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_
     + afficher les millisecondes
 */
 
-void    ft_time(void)
+void	*ft_thread(void *arg)
 {
-    int i = 0;
-    struct timeval time_before;
-    struct timeval time_after;
-    gettimeofday(&time_before, NULL);
-    while (i++ < 100)
-    {
-        gettimeofday(&time_after, NULL);
-        printf("%ld\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
-    }
-    gettimeofday(&time_after, NULL);
-    printf("%ld\n\n", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
-}
-/*
-void	*thread_1(void *arg) 
-{
-	struct timeval time_before;
-	struct timeval time_after;
-    t_philo **all_philo;
-    int     i;
+    pthread_t	thread;
+	t_params	*params;
 
-    i = 0;
-    all_philo = (t_philo **)arg;
-    gettimeofday(&time_before, NULL);
-    while (++i < all_philo[0]->nb_of_philo)
-    {
-        gettimeofday(&time_after, NULL);
-        printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
-        printf("\tPhilo %d has taken a fork\n", i);
-        printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
-        printf("\tPhilo %d is eating\n", i);
-        time_after.tv_usec += all_philo[i]->time_to_eat;
-        printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
-        printf("\tPhilo %d is sleeping\n", i);
-		time_after.tv_usec += all_philo[i]->time_to_sleep;
-        printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + time_after.tv_usec) - time_before.tv_usec);
-        printf("\tPhilo %d is thinking\n", i);
-    }
-	return (0);
+	params = (t_params *)arg;
+	pthread_create(&thread, NULL, ft_routine, params);
 }
 
-void    ft_thread(t_philo **all_philo)
+void    ft_init_thread(t_philo **all_philo, t_params *params)
 {
-    pthread_t	thread1;
-
-	pthread_create(&thread1, NULL, thread_1, all_philo);
-}*/
-
-void	*thread_1(void *arg) 
-{
-	struct timeval	time_before;
-	struct timeval	time_after;
-	t_philo			*all_philo;
-
-	all_philo = (t_philo *)arg;
-	time_before = all_philo->time_before;
-	time_after = all_philo->time_after;
-	all_philo->time_after = all_philo->time_before;
-	printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + (time_after.tv_usec - time_before.tv_usec)));
-	printf("\tPhilo %d has taken a fork\n", all_philo->id);
-	printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + (time_after.tv_usec - time_before.tv_usec)));
-	printf("\tPhilo %d is eating\n", all_philo->id);
-	time_after.tv_usec += all_philo->time_to_eat;
-	printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + (time_after.tv_usec - time_before.tv_usec)));
-	printf("\tPhilo %d is sleeping\n", all_philo->id);
-	time_after.tv_usec += all_philo->time_to_sleep;
-	printf("%ld", ((time_after.tv_sec - time_before.tv_sec) * 1000000 + (time_after.tv_usec - time_before.tv_usec)));
-	printf("\tPhilo %d is thinking\n", all_philo->id);
-	return (0);
-}
-
-void    ft_thread(t_philo **all_philo)
-{
-    pthread_t	thread1;
+    pthread_t	thread;
 	int			i;
 
 	i = -1;
-    gettimeofday(&all_philo[i + 1]->time_before, NULL);
-	gettimeofday(&all_philo[i + 1]->time_after, NULL);
-	while (++i < all_philo[0]->nb_of_philo)
+	pthread_create(&thread, NULL, ft_wait, params);
+	while (++i < params->nb_of_philo)
 	{
-		usleep(200);
-		pthread_create(&thread1, NULL, thread_1, all_philo[i]);
-		usleep(200);
+		params->index = i;
+		if (!i % 2)
+			pthread_create(&thread, NULL, ft_thread, params);
+		i++;
+		// dans le create on va prevoir si i % 2 ou si !i% 2 ou si !i % 2 && i == nb_philo
+	}
+	// un mutex ?
+	i = 0;
+	while (++i < params->nb_of_philo)
+	{
+		params->index = i;
+		if (i % 2)
+			pthread_create(&thread, NULL, ft_thread, params);
+		i++;
 	}
 }
 
 void    ft_start(char **argv)
 {
-    t_philo	**all_philo;
+    t_philo		**all_philo;
+	t_params	*params;
     int     nb_philo;
     int     i;
 
@@ -149,17 +97,16 @@ void    ft_start(char **argv)
     all_philo = ft_calloc((nb_philo + 1), sizeof(*all_philo));
     if (!all_philo)
         return ;
-    while (++i < nb_philo)
+	while (++i < nb_philo)
     {
-	    all_philo[i] = ft_calloc(nb_philo + 1, sizeof(t_philo));
-        if (!all_philo[i])
-            return ;
-	    ft_init_philo(argv, all_philo[i], i);
-    }
-    all_philo[nb_philo] = NULL;
-    //ft_time();
-    ft_thread(all_philo);
-    //free(philo);
+		all_philo[i] = ft_calloc(nb_philo + 1, sizeof(t_philo));
+		if (!all_philo[i])
+			return ;
+		ft_init_philo(argv, all_philo[i], i);
+	}
+	all_philo[nb_philo] = NULL;
+	ft_init_thread(all_philo, params);
+	//ft_clean(all_philo);
 }
 
 int	main(int argc, char **argv)
@@ -167,9 +114,6 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
         ft_putendl("[ERROR] Wrong number of arguments.");
     else
-    {
         ft_start(argv);
-        usleep(10000);
-    }
     return (0);
 }

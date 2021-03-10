@@ -55,3 +55,14 @@ void	ft_init_philo(char **argv, t_philo *philo, int i)
 	if (argv[5])
 		philo->nb_of_time_eat = ft_atoi(argv[5]);
 }
+
+long	ft_gettime(void)
+{
+	struct timeval	time_before;
+	long			time_after;		
+
+	gettimeofday(&time_before, NULL);
+	time_after = time_before.tv_sec * 1000 + time_before.tv_usec / 1000;
+	printf("Time :%ld\n", time_after);
+	return (time_after);
+}
