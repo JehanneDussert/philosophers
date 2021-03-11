@@ -50,28 +50,41 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_
     + afficher les millisecondes
 */
 
-void	*ft_thread(void *arg)
+void    ft_init_thread(t_params *params)
 {
-    pthread_t	thread;
-	t_params	*params;
-
-	params = (t_params *)arg;
-	pthread_create(&thread, NULL, ft_routine, params);
+	params->start = ft_gettime(params->time_start);
+	printf("Start :%f\n", params->start);
+	//while (!ft_is_dead(params))
+	{
+    	params->index = 0;
+		ft_routine(params);
+		params->index = 1;
+		ft_routine(params);
+	}
+	printf("%f\tPhilosopher [%d] is dead\n", params->clock, params->index + 1);
 }
 
-void    ft_init_thread(t_philo **all_philo, t_params *params)
+/*void    ft_init_thread(t_params *params)
 {
-    pthread_t	thread;
-	int			i;
+    //pthread_t	thread;
+	//int			i;
 
-	i = -1;
+	params->index = 0;
+	gettimeofday(&params->start, NULL);
+	ft_routine(params);
+	params->index = 1;
+	ft_routine(params);
 	pthread_create(&thread, NULL, ft_wait, params);
 	while (++i < params->nb_of_philo)
 	{
 		params->index = i;
+		printf("i :%d\n", i);
 		if (!i % 2)
-			pthread_create(&thread, NULL, ft_thread, params);
-		i++;
+		{
+			ft_routine(params);
+			//pthread_create(&thread, NULL, ft_routine, params);
+			//pthread_join(params->philo->thread, NULL);
+		}
 		// dans le create on va prevoir si i % 2 ou si !i% 2 ou si !i % 2 && i == nb_philo
 	}
 	// un-mutex ?
@@ -80,33 +93,31 @@ void    ft_init_thread(t_philo **all_philo, t_params *params)
 	{
 		params->index = i;
 		if (i % 2)
-			pthread_create(&thread, NULL, ft_thread, params);
-		i++;
+		{
+			ft_routine(params);
+			//pthread_create(&thread, NULL, ft_routine, params);
+			//pthread_join(params->philo->thread, NULL);
+		}
 	}
-}
+}*/
 
 void    ft_start(char **argv)
 {
-    t_philo		**all_philo;
-	t_params	*params;
+    t_philo		*philo;
+	t_params	params;
     int     nb_philo;
     int     i;
 
     i = -1;
 	nb_philo = ft_atoi(argv[1]);
-    all_philo = ft_calloc((nb_philo + 1), sizeof(*all_philo));
-    if (!all_philo)
+    philo = ft_calloc((nb_philo + 1), sizeof(*philo));
+    if (!philo)
         return ;
 	while (++i < nb_philo)
-    {
-		all_philo[i] = ft_calloc(nb_philo + 1, sizeof(t_philo));
-		if (!all_philo[i])
-			return ;
-		ft_init_philo(argv, all_philo[i], i);
-	}
-	all_philo[nb_philo] = NULL;
-	ft_init_thread(all_philo, params);
-	//ft_clean(all_philo);
+		ft_init_philo(argv, &philo[i], i);
+	ft_init_params(&params, philo, argv);
+	ft_init_thread(&params);
+	//ft_clean(philo);
 }
 
 int	main(int argc, char **argv)

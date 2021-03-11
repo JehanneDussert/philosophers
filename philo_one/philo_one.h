@@ -9,14 +9,12 @@
 
 typedef struct	s_philo
 {
-	int			nb_of_philo;
-	int			time_to_die;
-	int			time_to_eat;
-	int 		time_to_sleep;
-	int			nb_of_time_eat;
-	int			id;
-	int			index;
-	pthread_t	thread;
+	int				nb_of_meal_eat;
+	float			last_meal;
+	int				id;
+	int				index;
+	long			time;
+	pthread_t		thread;
 }				t_philo;
 
 typedef struct  s_params
@@ -27,19 +25,22 @@ typedef struct  s_params
 	int 			time_to_sleep;
 	int				nb_of_time_eat;
 	int				index;
-	struct timeval	time_before;
-	struct timeval	time_after;
+	struct timeval	time_start;
 	struct timeval	time;
-	t_philo			philo[200];
+	float			start;
+	float			clock;
+	t_philo			*philo;
 }               t_params;
 
 void    ft_putendl(char *str);
 void	ft_init_philo(char **argv, t_philo *philo, int i);
+void	ft_init_params(t_params *params, t_philo *philo, char **argv);
 int		ft_atoi(const char *str);
-long	ft_gettime(void);
+float	ft_gettime(struct timeval time_before);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_routine(void *arg);
 void    *ft_wait(void *arg);
 void    ft_clean(t_params *params);
+int		ft_is_dead(t_params *params);
 
 #endif

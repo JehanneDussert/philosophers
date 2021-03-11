@@ -41,28 +41,29 @@ void	*ft_calloc(size_t count, size_t size)
 	return (r - i);
 }
 
+void	ft_init_params(t_params *params, t_philo *philo, char **argv)
+{
+	params->nb_of_philo = ft_atoi(argv[1]);
+	params->time_to_die = ft_atoi(argv[2]);
+	params->time_to_eat = ft_atoi(argv[3]);
+	params->time_to_sleep = ft_atoi(argv[4]);
+	if (argv[5])
+		params->nb_of_time_eat = ft_atoi(argv[5]);
+	params->philo = philo;
+}
+
 void	ft_init_philo(char **argv, t_philo *philo, int i)
 {
 	philo->id = i + 1;
-	philo->time_after.tv_sec = 0;
-	philo->time.tv_sec = 0;
-	philo->time_after.tv_usec = 0;
-	philo->time.tv_usec = 0;
-	philo->nb_of_philo = ft_atoi(argv[1]);
-	philo->time_to_die = ft_atoi(argv[2]);
-	philo->time_to_eat = ft_atoi(argv[3]);
-	philo->time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5])
-		philo->nb_of_time_eat = ft_atoi(argv[5]);
+		philo->nb_of_meal_eat = 0;
 }
 
-long	ft_gettime(void)
+float	ft_gettime(struct timeval time_before)
 {
-	struct timeval	time_before;
-	long			time_after;		
+	float	time_after;		
 
 	gettimeofday(&time_before, NULL);
 	time_after = time_before.tv_sec * 1000 + time_before.tv_usec / 1000;
-	printf("Time :%ld\n", time_after);
 	return (time_after);
 }
