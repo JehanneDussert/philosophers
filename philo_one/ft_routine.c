@@ -7,34 +7,27 @@ int		ft_is_dead(t_params *params)
 	return (0);
 }
 
-void	*ft_eat(void *arg)
+int	ft_eat(t_params *params)
 {
-	t_params	*params;
-
-	params = (t_params *)arg;
-	printf("%f\t%f\n", ft_gettime(params->time), params->start);
-	params->clock = ft_gettime(params->time) - params->start;
-	printf("%f\tPhilosopher [%d] is eating\n", params->clock, params->index + 1);
+	if (!(params->clock = ft_gettime()))
+		return (-1);
+	printf("[%ld]\tPhilosopher |%d| is eating\n", params->clock - params->start, params->index);
 	return (0);
 }
 
-void	*ft_sleep(void *arg)
+int	ft_sleep(t_params *params)
 {
-	t_params	*params;
-
-	params = (t_params *)arg;
-	params->clock = ft_gettime(params->time) - params->start;
-	printf("%f\tPhilosopher [%d] is sleeping\n", params->clock, params->index + 1);
+	if (!(params->clock = ft_gettime()))
+		return (-1);
+	printf("[%ld]\tPhilosopher |%d| is sleeping\n", params->clock - params->start, params->index);
 	return (0);
 }
 
-void	*ft_think(void *arg)
+int	ft_think(t_params *params)
 {
-	t_params	*params;
-
-	params = (t_params *)arg;
-	params->clock = ft_gettime(params->time) - params->start;
-	printf("%f\tPhilosopher [%d] is thinking\n", params->clock, params->index + 1);
+	if (!(params->clock = ft_gettime()))
+		return (-1);
+	printf("[%ld]\tPhilosopher |%d| is thinking\n", params->clock - params->start, params->index);
 	return (0);
 }
 
@@ -43,16 +36,8 @@ void	*ft_routine(void *arg)
 	t_params	*params;
 
 	params = (t_params *)arg;
-	//printf("clock :%ld [%d]\n", params->clock, params->nb_of_philo);
-	while (params->index < params->nb_of_philo)
-	{
-		pthread_create(&params->philo->thread, NULL, ft_eat, params);
-		pthread_join(params->philo->thread, NULL);
-		pthread_create(&params->philo->thread, NULL, ft_sleep, params);
-		pthread_join(params->philo->thread, NULL);
-		pthread_create(&params->philo->thread, NULL, ft_think, params);
-		pthread_join(params->philo->thread, NULL);
-		params->index += 2;
-	}
+	ft_eat(params);
+	ft_sleep(params);
+	ft_think(params);
 	return (0);
 }

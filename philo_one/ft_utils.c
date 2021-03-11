@@ -59,11 +59,11 @@ void	ft_init_philo(char **argv, t_philo *philo, int i)
 		philo->nb_of_meal_eat = 0;
 }
 
-float	ft_gettime(struct timeval time_before)
+double ft_gettime(void)
 {
-	float	time_after;		
+	struct timeval	time;		
 
-	gettimeofday(&time_before, NULL);
-	time_after = time_before.tv_sec * 1000 + time_before.tv_usec / 1000;
-	return (time_after);
+	if (gettimeofday(&time, NULL) == -1)
+		return (0);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }

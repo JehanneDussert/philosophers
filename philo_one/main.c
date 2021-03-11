@@ -50,56 +50,44 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_
     + afficher les millisecondes
 */
 
+/*
+int main(void)
+{
+    int i;
+    struct timeval temps_avant, temps_apres;
+ 
+    gettimeofday (&temps_avant, NULL);
+ 
+    for(i=0; i<2000000000; i++);
+ 
+    gettimeofday (&temps_apres, NULL);
+ 
+    printf("temps en us: %ld us\n", ((temps_apres.tv_sec - temps_avant.tv_sec) * 1000000 + temps_apres.tv_usec) - temps_avant.tv_usec);
+ 
+    return 0;
+}
+*/
+
 void    ft_init_thread(t_params *params)
 {
-	params->start = ft_gettime(params->time_start);
-	printf("Start :%f\n", params->start);
-	//while (!ft_is_dead(params))
+	params->start = ft_gettime();
+    params->index = 1;
+	while (params->index < params->nb_of_philo)
 	{
-    	params->index = 0;
-		ft_routine(params);
-		params->index = 1;
-		ft_routine(params);
+		pthread_create(&params->philo[params->index].thread, NULL, ft_routine, params);
+		pthread_join(params->philo[params->index].thread, NULL);
+		params->index += 2;
 	}
-	printf("%f\tPhilosopher [%d] is dead\n", params->clock, params->index + 1);
+	params->index = 2;
+	while (params->index < params->nb_of_philo)
+	{
+		pthread_create(&params->philo[params->index].thread, NULL, ft_routine, params);
+		pthread_join(params->philo[params->index].thread, NULL);
+		params->index += 2;
+	}
+	pthread_join(params->philo[params->index].thread, NULL);
+	printf("[%ld]\tPhilosopher |%d| is dead\n", params->clock - params->start, params->index);
 }
-
-/*void    ft_init_thread(t_params *params)
-{
-    //pthread_t	thread;
-	//int			i;
-
-	params->index = 0;
-	gettimeofday(&params->start, NULL);
-	ft_routine(params);
-	params->index = 1;
-	ft_routine(params);
-	pthread_create(&thread, NULL, ft_wait, params);
-	while (++i < params->nb_of_philo)
-	{
-		params->index = i;
-		printf("i :%d\n", i);
-		if (!i % 2)
-		{
-			ft_routine(params);
-			//pthread_create(&thread, NULL, ft_routine, params);
-			//pthread_join(params->philo->thread, NULL);
-		}
-		// dans le create on va prevoir si i % 2 ou si !i% 2 ou si !i % 2 && i == nb_philo
-	}
-	// un-mutex ?
-	i = 0;
-	while (++i < params->nb_of_philo)
-	{
-		params->index = i;
-		if (i % 2)
-		{
-			ft_routine(params);
-			//pthread_create(&thread, NULL, ft_routine, params);
-			//pthread_join(params->philo->thread, NULL);
-		}
-	}
-}*/
 
 void    ft_start(char **argv)
 {
