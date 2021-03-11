@@ -70,7 +70,9 @@ int main(void)
 
 void    ft_init_thread(t_params *params)
 {
-	params->start = ft_gettime();
+	if (gettimeofday(&params->time_start, NULL) == -1)
+		return ;
+	params->start = ft_gettime(params->time_start);
     params->index = 1;
 	while (params->index < params->nb_of_philo)
 	{
@@ -86,7 +88,7 @@ void    ft_init_thread(t_params *params)
 		params->index += 2;
 	}
 	pthread_join(params->philo[params->index].thread, NULL);
-	printf("[%ld]\tPhilosopher |%d| is dead\n", params->clock - params->start, params->index);
+	printf("[%d]\tPhilosopher |%d| is dead\n", params->clock - params->start, params->index);
 }
 
 void    ft_start(char **argv)

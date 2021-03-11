@@ -27,8 +27,8 @@ typedef struct  s_params
 	int					index;
 	struct timeval		time_start;
 	struct timeval		time;
-	unsigned long int	start;
-	unsigned long int	clock;
+	int	start;
+	int	clock;
 	t_philo				*philo;
 }               t_params;
 
@@ -36,7 +36,7 @@ void    ft_putendl(char *str);
 void	ft_init_philo(char **argv, t_philo *philo, int i);
 void	ft_init_params(t_params *params, t_philo *philo, char **argv);
 int		ft_atoi(const char *str);
-double	ft_gettime(void);
+int	ft_gettime(struct timeval start);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_routine(void *arg);
 void    *ft_wait(void *arg);

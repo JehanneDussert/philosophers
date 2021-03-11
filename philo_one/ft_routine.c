@@ -9,25 +9,25 @@ int		ft_is_dead(t_params *params)
 
 int	ft_eat(t_params *params)
 {
-	if (!(params->clock = ft_gettime()))
+	if (!(params->clock = ft_gettime(params->time_start)))
 		return (-1);
-	printf("[%ld]\tPhilosopher |%d| is eating\n", params->clock - params->start, params->index);
+	printf("[%d]\tPhilosopher |%d| is eating\n", params->clock - params->start, params->index);
 	return (0);
 }
 
 int	ft_sleep(t_params *params)
 {
-	if (!(params->clock = ft_gettime()))
+	if (!(params->clock = ft_gettime(params->time_start)))
 		return (-1);
-	printf("[%ld]\tPhilosopher |%d| is sleeping\n", params->clock - params->start, params->index);
+	printf("[%d]\tPhilosopher |%d| is sleeping\n", params->clock - params->start, params->index);
 	return (0);
 }
 
 int	ft_think(t_params *params)
 {
-	if (!(params->clock = ft_gettime()))
+	if (!(params->clock = ft_gettime(params->time_start)))
 		return (-1);
-	printf("[%ld]\tPhilosopher |%d| is thinking\n", params->clock - params->start, params->index);
+	printf("[%d]\tPhilosopher |%d| is thinking\n", params->clock - params->start, params->index);
 	return (0);
 }
 
