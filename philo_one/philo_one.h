@@ -7,6 +7,11 @@
 #include <pthread.h>
 #include <sys/time.h>
 
+typedef struct	s_fork
+{
+	// mutex ?
+}				t_fork;
+
 typedef struct	s_philo
 {
 	int				nb_of_meal_eat;
@@ -14,6 +19,8 @@ typedef struct	s_philo
 	int				id;
 	int				index;
 	long			time;
+	t_fork			fork;
+	t_fork			*n_fork;
 	pthread_t		thread;
 }				t_philo;
 
@@ -36,11 +43,12 @@ void    ft_putendl(char *str);
 void	ft_init_philo(char **argv, t_philo *philo, int i);
 void	ft_init_params(t_params *params, t_philo *philo, char **argv);
 int		ft_atoi(const char *str);
-int	ft_gettime(struct timeval start);
+int		ft_gettime(struct timeval start);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_routine(void *arg);
 void    *ft_wait(void *arg);
-void    ft_clean(t_params *params);
 int		ft_is_dead(t_params *params);
+int		ft_dead(t_params *params);
+void    ft_clean(t_philo **philo, t_params *params);
 
 #endif

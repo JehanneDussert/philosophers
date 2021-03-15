@@ -6,5 +6,5 @@ void    *ft_wait(void *arg)
 
 	philo = (t_philo *)arg;
     // protection avec mutex
-    return (0);
+    return (NULL);
 }

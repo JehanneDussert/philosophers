@@ -55,6 +55,7 @@ void	ft_init_params(t_params *params, t_philo *philo, char **argv)
 void	ft_init_philo(char **argv, t_philo *philo, int i)
 {
 	philo->id = i + 1;
+	philo->nb_of_meal_eat = 0;
 	if (argv[5])
 		philo->nb_of_meal_eat = 0;
 }

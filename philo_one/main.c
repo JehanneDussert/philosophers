@@ -73,48 +73,53 @@ void    ft_init_thread(t_params *params)
 	if (gettimeofday(&params->time_start, NULL) == -1)
 		return ;
 	params->start = ft_gettime(params->time_start);
-    params->index = 1;
+	params->index = 1;
 	while (params->index < params->nb_of_philo)
 	{
 		pthread_create(&params->philo[params->index].thread, NULL, ft_routine, params);
-		pthread_join(params->philo[params->index].thread, NULL);
 		params->index += 2;
 	}
 	params->index = 2;
+	usleep(1000);
 	while (params->index < params->nb_of_philo)
 	{
 		pthread_create(&params->philo[params->index].thread, NULL, ft_routine, params);
-		pthread_join(params->philo[params->index].thread, NULL);
 		params->index += 2;
 	}
+	if (ft_dead(params) == 1)
+		params->index = 1;
+	if (ft_dead(params) == 2)
+		return ;
+	usleep(500);
 	pthread_join(params->philo[params->index].thread, NULL);
-	printf("[%d]\tPhilosopher |%d| is dead\n", params->clock - params->start, params->index);
+	printf("[%d]\tPhilosopher |%d| is dead\n", params->clock - params->start, params->philo[params->index].id);
 }
 
 void    ft_start(char **argv)
 {
     t_philo		*philo;
 	t_params	params;
-    int     nb_philo;
-    int     i;
+	int			nb_philo;
+	int			i;
 
-    i = -1;
+	i = -1;
 	nb_philo = ft_atoi(argv[1]);
-    philo = ft_calloc((nb_philo + 1), sizeof(*philo));
-    if (!philo)
-        return ;
+	philo = ft_calloc((nb_philo + 1), sizeof(*philo));
+	if (!philo)
+		return ;
 	while (++i < nb_philo)
 		ft_init_philo(argv, &philo[i], i);
 	ft_init_params(&params, philo, argv);
 	ft_init_thread(&params);
-	//ft_clean(philo);
+	usleep(500);
+	ft_clean(&philo, &params);
 }
 
 int	main(int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
-        ft_putendl("[ERROR] Wrong number of arguments.");
-    else
-        ft_start(argv);
-    return (0);
+		ft_putendl("[ERROR] Wrong number of arguments.");
+	else
+		ft_start(argv);
+	return (0);
 }
