@@ -1,12 +1,12 @@
 #include "philo_one.h"
 
-void    *ft_wait(void *arg)
+void    ft_wait(void)
 {
-    t_philo			*philo;
+	long int start;
 
-	philo = (t_philo *)arg;
-    // protection avec mutex
-    return (NULL);
+	start = ft_gettime();
+	while (ft_gettime() - start < g_time.time_to_die)
+		usleep(400);
 }
 
 void	*ft_lock_forks(t_philo *philo)

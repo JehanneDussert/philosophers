@@ -55,8 +55,9 @@ void	*ft_routine(void *arg)
 		if (ft_lock_forks(philo) == NULL)
 			return (NULL);
 		ft_eat(philo);
+		ft_wait();
 		ft_unlock_forks(philo);
-		usleep(400);
+		ft_wait();
 		ft_sleep(philo);
 		ft_think(philo);
 	}

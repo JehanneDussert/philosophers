@@ -79,7 +79,7 @@ void    ft_init_thread(t_philo **philo)
 		return ;
 	g_time.start = ft_gettime();
 	while (++i < n)
-		if (i && !(i % 2))
+		if (!(i % 2))
 			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
 	i = -1;
 	usleep(1000);
@@ -105,7 +105,6 @@ void    ft_start(char **argv)
 	if (!philo)
 		return ;
 	ft_init_philo(argv, &philo);
-	//ft_init_params(&params, philo, argv);
 	ft_init_thread(&philo);
 	usleep(500);
 	ft_clean(&philo, &params);

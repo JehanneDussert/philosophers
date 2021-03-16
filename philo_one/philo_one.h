@@ -58,7 +58,7 @@ int		ft_atoi(const char *str);
 long int	ft_gettime(void);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_routine(void *arg);
-void    *ft_wait(void *arg);
+void    ft_wait(void);
 int		ft_dead(t_philo *philo);
 void    ft_clean(t_philo **philo, t_params *params);
 void	*ft_lock_forks(t_philo *philo);
