@@ -9,7 +9,7 @@
 
 typedef struct	s_fork
 {
-	// mutex ?
+	pthread_mutex_t	lock;
 }				t_fork;
 
 typedef struct	s_philo
@@ -19,6 +19,7 @@ typedef struct	s_philo
 	int				id;
 	int				index;
 	long			time;
+	int				fork_taken;
 	t_fork			fork;
 	t_fork			*n_fork;
 	pthread_t		thread;
@@ -34,8 +35,8 @@ typedef struct  s_params
 	int					index;
 	struct timeval		time_start;
 	struct timeval		time;
-	int	start;
-	int	clock;
+	int					start;
+	int					clock;
 	t_philo				*philo;
 }               t_params;
 
@@ -50,5 +51,7 @@ void    *ft_wait(void *arg);
 int		ft_is_dead(t_params *params);
 int		ft_dead(t_params *params);
 void    ft_clean(t_philo **philo, t_params *params);
+void	*ft_lock_forks(t_params *params);
+void	ft_unlock_forks(t_params *params);
 
 #endif

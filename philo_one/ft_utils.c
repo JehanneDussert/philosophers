@@ -55,6 +55,8 @@ void	ft_init_params(t_params *params, t_philo *philo, char **argv)
 void	ft_init_philo(char **argv, t_philo *philo, int i)
 {
 	philo->id = i + 1;
+	pthread_mutex_init(&philo->fork.lock, NULL);
+	philo->fork_taken = 0;
 	philo->nb_of_meal_eat = 0;
 	if (argv[5])
 		philo->nb_of_meal_eat = 0;
@@ -66,7 +68,7 @@ int ft_gettime(struct timeval start)
 	int			new;
 
 	if (gettimeofday(&time, NULL) == -1)
-		return (0);
-	new = (((time.tv_sec - start.tv_sec) * 1000000 + time.tv_usec) - start.tv_usec) / 100;
+		return (-1);
+	new = (((time.tv_sec - start.tv_sec) * 1000 + time.tv_usec) - start.tv_usec) / 1000;
 	return (new);
 }

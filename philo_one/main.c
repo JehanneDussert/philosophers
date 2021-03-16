@@ -73,13 +73,13 @@ void    ft_init_thread(t_params *params)
 	if (gettimeofday(&params->time_start, NULL) == -1)
 		return ;
 	params->start = ft_gettime(params->time_start);
-	params->index = 1;
+	params->index = 0;
 	while (params->index < params->nb_of_philo)
 	{
 		pthread_create(&params->philo[params->index].thread, NULL, ft_routine, params);
 		params->index += 2;
 	}
-	params->index = 2;
+	params->index = 1;
 	usleep(1000);
 	while (params->index < params->nb_of_philo)
 	{
@@ -104,11 +104,15 @@ void    ft_start(char **argv)
 
 	i = -1;
 	nb_philo = ft_atoi(argv[1]);
-	philo = ft_calloc((nb_philo + 1), sizeof(*philo));
+	philo = ft_calloc((nb_philo), sizeof(*philo));
 	if (!philo)
 		return ;
-	while (++i < nb_philo)
+	while (++i < nb_philo - 1)
+	{
 		ft_init_philo(argv, &philo[i], i);
+		philo[i].n_fork = &philo[i + 1].fork;
+	}
+	philo[i].n_fork = &philo[0].fork;
 	ft_init_params(&params, philo, argv);
 	ft_init_thread(&params);
 	usleep(500);
