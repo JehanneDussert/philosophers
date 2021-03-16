@@ -9,30 +9,29 @@ void    *ft_wait(void *arg)
     return (NULL);
 }
 
-void	*ft_lock_forks(t_params *params)
+void	*ft_lock_forks(t_philo *philo)
 {
-	if (params->philo[params->index].id % 2)
+	if (philo->id % 2)
 	{
-		pthread_mutex_lock(&params->philo[params->index].fork.lock);
-		if ((params->clock = ft_gettime(params->time_start)) == -1)
+		pthread_mutex_lock(&philo->fork.lock);
+		if ((g_time.clock = ft_gettime()) == -1)
 			return (NULL);
-		printf("[%d]\tPhilosopher |%d| has taken a fork\n", params->clock - params->start, params->philo[params->index].id);
+		printf("[%d]\tPhilosopher |%d| has taken a fork\n", g_time.clock - g_time.start, philo->id);
 	}
-	pthread_mutex_lock(&params->philo[params->index].n_fork->lock);
-	printf("[%d]\tPhilosopher |%d| has taken a fork\n", params->clock - params->start, params->philo[params->index].id);
-	if (!params->philo[params->index].id % 2)
+	pthread_mutex_lock(&philo->n_fork->lock);
+	printf("[%d]\tPhilosopher |%d| has taken a fork\n", g_time.clock - g_time.start, philo->id);
+	if (!(philo->id % 2))
 	{
-		pthread_mutex_lock(&params->philo[params->index].fork.lock);
-		if ((params->clock = ft_gettime(params->time_start)) == -1)
+		pthread_mutex_lock(&philo->fork.lock);
+		if ((g_time.clock = ft_gettime()) == -1)
 			return (NULL);
-		printf("[%d]\tPhilosopher |%d| has taken a fork\n", params->clock - params->start, params->philo[params->index].id);
+		printf("[%d]\tPhilosopher |%d| has taken a fork\n", g_time.clock - g_time.start, philo->id);
 	}
-	params->philo[params->index].fork_taken = 2;
 	return ("done");
 }
 
-void	ft_unlock_forks(t_params *params)
+void	ft_unlock_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(&params->philo[params->index].fork.lock);
-	pthread_mutex_unlock(&params->philo[params->index].n_fork->lock);
+	pthread_mutex_unlock(&philo->fork.lock);
+	pthread_mutex_unlock(&philo->n_fork->lock);
 }

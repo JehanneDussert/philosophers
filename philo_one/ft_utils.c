@@ -52,23 +52,34 @@ void	ft_init_params(t_params *params, t_philo *philo, char **argv)
 	params->philo = philo;
 }
 
-void	ft_init_philo(char **argv, t_philo *philo, int i)
+void	ft_init_philo(char **argv, t_philo **philo)
 {
-	philo->id = i + 1;
-	pthread_mutex_init(&philo->fork.lock, NULL);
-	philo->fork_taken = 0;
-	philo->nb_of_meal_eat = 0;
-	if (argv[5])
-		philo->nb_of_meal_eat = 0;
+	int	i;
+	int	n;
+
+	i = -1;
+	n = ft_atoi(argv[1]) - 1;
+	while(++i < n)
+	{
+		(*philo)[i].nb_philo = n + 1;
+		(*philo)[i].id = i + 1;
+		pthread_mutex_init(&(*philo)[i].fork.lock, NULL);
+		(*philo)[i].n_fork = &(*philo)[i + 1].fork;
+		(*philo)[i].nb_of_meal_eat = 0;
+		if (argv[5])
+			(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
+	}
+	pthread_mutex_init(&(*philo)[i].fork.lock, NULL);
+	(*philo)[i].id = i + 1;
+	(*philo)[i].n_fork = &(*philo)[0].fork;
+	g_time.time_to_die = ft_atoi(argv[2]);
 }
 
-int ft_gettime(struct timeval start)
+long int ft_gettime(void)
 {
 	struct timeval	time;
-	int			new;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
-	new = (((time.tv_sec - start.tv_sec) * 1000 + time.tv_usec) - start.tv_usec) / 1000;
-	return (new);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }

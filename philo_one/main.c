@@ -68,31 +68,28 @@ int main(void)
 }
 */
 
-void    ft_init_thread(t_params *params)
+void    ft_init_thread(t_philo **philo)
 {
-	if (gettimeofday(&params->time_start, NULL) == -1)
+	int i;
+	int n;
+
+	i = -1;
+	n = (*philo)[0].nb_philo - 1;
+	if (gettimeofday(&g_time.time_start, NULL) == -1)
 		return ;
-	params->start = ft_gettime(params->time_start);
-	params->index = 0;
-	while (params->index < params->nb_of_philo)
-	{
-		pthread_create(&params->philo[params->index].thread, NULL, ft_routine, params);
-		params->index += 2;
-	}
-	params->index = 1;
+	g_time.start = ft_gettime();
+	while (++i < n)
+		if (i && !(i % 2))
+			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
+	i = -1;
 	usleep(1000);
-	while (params->index < params->nb_of_philo)
-	{
-		pthread_create(&params->philo[params->index].thread, NULL, ft_routine, params);
-		params->index += 2;
-	}
-	if (ft_dead(params) == 1)
-		params->index = 1;
-	if (ft_dead(params) == 2)
+	while (++i < n)
+		if (i % 2)
+			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
+	if (ft_dead(&(*philo)[i]) == 2)
 		return ;
-	usleep(500);
-	pthread_join(params->philo[params->index].thread, NULL);
-	printf("[%d]\tPhilosopher |%d| is dead\n", params->clock - params->start, params->philo[params->index].id);
+	pthread_join((*philo)[i].thread, NULL);
+	printf("[%d]\tPhilosopher |%d| is dead\n", g_time.clock - g_time.start, (*philo)[i].id);
 }
 
 void    ft_start(char **argv)
@@ -107,14 +104,9 @@ void    ft_start(char **argv)
 	philo = ft_calloc((nb_philo), sizeof(*philo));
 	if (!philo)
 		return ;
-	while (++i < nb_philo - 1)
-	{
-		ft_init_philo(argv, &philo[i], i);
-		philo[i].n_fork = &philo[i + 1].fork;
-	}
-	philo[i].n_fork = &philo[0].fork;
-	ft_init_params(&params, philo, argv);
-	ft_init_thread(&params);
+	ft_init_philo(argv, &philo);
+	//ft_init_params(&params, philo, argv);
+	ft_init_thread(&philo);
 	usleep(500);
 	ft_clean(&philo, &params);
 }
