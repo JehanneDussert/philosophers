@@ -1,11 +1,11 @@
 #include "philo_one.h"
 
-void    ft_wait(void)
+void    ft_wait(long time)
 {
 	long int start;
 
 	start = ft_gettime();
-	while (ft_gettime() - start < g_time.time_to_die)
+	while (ft_gettime() - start < time)
 		usleep(400);
 }
 

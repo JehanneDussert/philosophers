@@ -64,6 +64,8 @@ void	ft_init_philo(char **argv, t_philo **philo)
 	(*philo)[i].id = i + 1;
 	(*philo)[i].n_fork = &(*philo)[0].fork;
 	g_time.time_to_die = ft_atoi(argv[2]);
+	g_time.time_to_eat = ft_atoi(argv[3]);
+	g_time.time_to_sleep= ft_atoi(argv[4]);
 }
 
 long int ft_gettime(void)
@@ -73,4 +75,15 @@ long int ft_gettime(void)
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+int		ft_check_meal(t_philo *philo)
+{
+	int i;
+
+	i = -1;
+	while (philo[++i].id < philo[0].nb_philo)
+		if (!(philo[i].nb_of_meal_eat == philo[i].nb_of_meal))
+			return (0);
+	return (1);
 }
