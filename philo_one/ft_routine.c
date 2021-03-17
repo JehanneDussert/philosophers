@@ -30,9 +30,10 @@ int		ft_dead(t_philo	*philo)
 {
 	if (g_time.clock - g_time.start < g_time.time_to_die)
 		return (1);
-	else if (philo->nb_of_meal_eat <= philo->nb_of_meal || philo->nb_of_meal == 0)
+	else if (philo->nb_of_meal_eat < philo->nb_of_meal || philo->nb_of_meal == 0)
 		return (2);
-	printf("out\n");
+	else if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
+		return (3);
 	return (0);
 }
 
@@ -43,12 +44,11 @@ void	*ft_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (ft_dead(philo))
 	{
-		printf("philo id lo :%d\n", philo->id);
-		ft_lock_forks(philo);
-		//if (ft_lock_forks(philo) == NULL)
-		//	return (NULL);
-		printf("philo id :%d\n", philo->id);
+		if (ft_lock_forks(philo) == NULL)
+			return (NULL);
 		ft_eat(philo);
+		if (ft_dead(philo) == 3)
+			return ("done");
 		ft_wait();
 		ft_unlock_forks(philo);
 		ft_sleep(philo);

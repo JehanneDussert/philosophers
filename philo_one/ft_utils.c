@@ -41,17 +41,6 @@ void	*ft_calloc(size_t count, size_t size)
 	return (r - i);
 }
 
-void	ft_init_params(t_params *params, t_philo *philo, char **argv)
-{
-	params->nb_of_philo = ft_atoi(argv[1]);
-	params->time_to_die = ft_atoi(argv[2]);
-	params->time_to_eat = ft_atoi(argv[3]);
-	params->time_to_sleep = ft_atoi(argv[4]);
-	if (argv[5])
-		params->nb_of_time_eat = ft_atoi(argv[5]);
-	params->philo = philo;
-}
-
 void	ft_init_philo(char **argv, t_philo **philo)
 {
 	int	i;
@@ -69,6 +58,8 @@ void	ft_init_philo(char **argv, t_philo **philo)
 		if (argv[5])
 			(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
 	}
+	if (argv[5])
+		(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
 	pthread_mutex_init(&(*philo)[i].fork.lock, NULL);
 	(*philo)[i].id = i + 1;
 	(*philo)[i].n_fork = &(*philo)[0].fork;

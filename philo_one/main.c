@@ -50,23 +50,16 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_
     + afficher les millisecondes
 */
 
-/*
-int main(void)
+int		ft_check_meal(t_philo *philo)
 {
-    int i;
-    struct timeval temps_avant, temps_apres;
- 
-    gettimeofday (&temps_avant, NULL);
- 
-    for(i=0; i<2000000000; i++);
- 
-    gettimeofday (&temps_apres, NULL);
- 
-    printf("temps en us: %ld us\n", ((temps_apres.tv_sec - temps_avant.tv_sec) * 1000000 + temps_apres.tv_usec) - temps_avant.tv_usec);
- 
-    return 0;
+	int i;
+
+	i = -1;
+	while (philo[++i].id < philo[0].nb_philo)
+		if (!(philo[i].nb_of_meal_eat == philo[i].nb_of_meal))
+			return (0);
+	return (1);
 }
-*/
 
 void    ft_init_thread(t_philo **philo)
 {
@@ -87,16 +80,15 @@ void    ft_init_thread(t_philo **philo)
 		if (i % 2)
 			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
 	i--;
-	if ((*philo)[i].nb_of_meal_eat == (*philo)[i].nb_of_meal)
-		return ;
 	pthread_join((*philo)[i].thread, NULL);
+	if ((*philo)[i].nb_of_meal && ft_check_meal(*philo))
+		return ;
 	printf("[%d]\tPhilosopher |%d| is dead\n", g_time.clock - g_time.start, (*philo)[i].id);
 }
 
 void    ft_start(char **argv)
 {
     t_philo		*philo;
-	t_params	params;
 	int			nb_philo;
 	int			i;
 
@@ -108,7 +100,7 @@ void    ft_start(char **argv)
 	ft_init_philo(argv, &philo);
 	ft_init_thread(&philo);
 	usleep(500);
-	ft_clean(&philo, &params);
+	ft_clean(&philo);
 }
 
 int	main(int argc, char **argv)
