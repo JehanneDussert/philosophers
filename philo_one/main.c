@@ -78,15 +78,16 @@ void    ft_init_thread(t_philo **philo)
 	if (gettimeofday(&g_time.time_start, NULL) == -1)
 		return ;
 	g_time.start = ft_gettime();
-	while (++i < n)
+	while (++i <= n)
 		if (!(i % 2))
 			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
 	i = -1;
 	usleep(1000);
-	while (++i < n)
+	while (++i <= n)
 		if (i % 2)
 			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
-	if (ft_dead(&(*philo)[i]) == 2)
+	i--;
+	if ((*philo)[i].nb_of_meal_eat == (*philo)[i].nb_of_meal)
 		return ;
 	pthread_join((*philo)[i].thread, NULL);
 	printf("[%d]\tPhilosopher |%d| is dead\n", g_time.clock - g_time.start, (*philo)[i].id);
