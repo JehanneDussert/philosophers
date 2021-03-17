@@ -42,18 +42,19 @@ void	*ft_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (ft_dead(philo))
+	while (ft_dead(philo) && ft_dead(philo) != 3)
 	{
 		if (ft_lock_forks(philo) == NULL)
 			return (NULL);
 		ft_eat(philo);
-		if (ft_dead(philo) == 3)
-			return ("done");
 		ft_wait();
 		ft_unlock_forks(philo);
-		ft_sleep(philo);
-		ft_wait();
-		ft_think(philo);
+		if (ft_dead(philo) != 3)
+		{
+			ft_sleep(philo);
+			ft_wait();
+			ft_think(philo);
+		}
 	}
 	return (NULL);
 }
