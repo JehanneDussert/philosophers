@@ -14,7 +14,7 @@ void    ft_init_thread(t_philo **philo)
 		if (!(i % 2))
 			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
 	i = -1;
-	usleep(1000);
+	usleep(500);
 	while (++i <= n)
 		if (i % 2)
 			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
@@ -38,7 +38,6 @@ void    ft_start(char **argv)
 		return ;
 	ft_init_philo(argv, &philo);
 	ft_init_thread(&philo);
-	usleep(500);
 	ft_clean(&philo);
 }
 

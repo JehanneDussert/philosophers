@@ -1,12 +1,21 @@
 #include "philo_one.h"
 
+<<<<<<< HEAD
 void    ft_wait(long time)
+=======
+void    ft_wait(long int ms)
+>>>>>>> correct_nb_meal
 {
 	long int start;
 
 	start = ft_gettime();
+<<<<<<< HEAD
 	while (ft_gettime() - start < time)
 		usleep(400);
+=======
+	while (ft_gettime() - start < ms)
+		usleep(100);
+>>>>>>> correct_nb_meal
 }
 
 void	*ft_lock_forks(t_philo *philo)

@@ -1,11 +1,18 @@
+.gitignore
+theo/
+marc/
+
 # Prerequisites
 *.d
 
 # Object files
 *.o
 philo_one/*.o
+philo_one/philo_one
 philo_two/*.o
+philo_two/philo_two
 philo_three/*.o
+philo_three/philo_three
 *.ko
 *.obj
 *.elf
