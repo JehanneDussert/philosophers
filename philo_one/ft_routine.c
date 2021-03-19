@@ -28,11 +28,11 @@ int	ft_think(t_philo *philo)
 
 int		ft_dead(t_philo	*philo)
 {
-	if (g_time.clock - g_time.start < g_time.time_to_die)
+	if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
 		return (1);
-	else if (philo->nb_of_meal_eat < philo->nb_of_meal || philo->nb_of_meal == 0)
+	else if (g_time.clock - g_time.start < g_time.time_to_die)
 		return (2);
-	else if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
+	else if (philo->nb_of_meal_eat < philo->nb_of_meal || philo->nb_of_meal == 0)
 		return (3);
 	return (0);
 }
@@ -42,17 +42,17 @@ void	*ft_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (ft_dead(philo) && ft_dead(philo) != 3)
+	while (ft_dead(philo) > 1)
 	{
 		if (ft_lock_forks(philo) == NULL)
 			return (NULL);
 		ft_eat(philo);
-		ft_wait();
+		ft_wait(g_time.time_to_eat);
 		ft_unlock_forks(philo);
-		if (ft_dead(philo) != 3)
+		if (ft_dead(philo) > 1)
 		{
 			ft_sleep(philo);
-			ft_wait();
+			ft_wait(g_time.time_to_sleep);
 			ft_think(philo);
 		}
 	}
