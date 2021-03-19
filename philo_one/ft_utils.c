@@ -66,6 +66,7 @@ void	ft_init_philo(char **argv, t_philo **philo)
 	g_time.time_to_die = ft_atoi(argv[2]);
 	g_time.time_to_eat = ft_atoi(argv[3]);
 	g_time.time_to_sleep = ft_atoi(argv[4]);
+	g_time.dead = 1;
 }
 
 long int ft_gettime(void)
@@ -82,6 +83,7 @@ int		ft_check_meal(t_philo *philo)
 	int i;
 
 	i = -1;
+	printf("enter\n");
 	while (philo[++i].id < philo[0].nb_philo)
 		if (!(philo[i].nb_of_meal_eat == philo[i].nb_of_meal))
 			return (0);

@@ -21,6 +21,7 @@ typedef struct	s_time
 	int				time_to_die;
 	long int		time_to_eat;
 	long int		time_to_sleep;
+	int				dead;
 }				t_time;
 
 typedef struct	s_philo
