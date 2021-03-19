@@ -65,11 +65,7 @@ void	ft_init_philo(char **argv, t_philo **philo)
 	(*philo)[i].n_fork = &(*philo)[0].fork;
 	g_time.time_to_die = ft_atoi(argv[2]);
 	g_time.time_to_eat = ft_atoi(argv[3]);
-<<<<<<< HEAD
-	g_time.time_to_sleep= ft_atoi(argv[4]);
-=======
 	g_time.time_to_sleep = ft_atoi(argv[4]);
->>>>>>> correct_nb_meal
 }
 
 long int ft_gettime(void)
