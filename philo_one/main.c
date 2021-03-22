@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
+/*   Updated: 2021/03/22 12:03:21 by jdussert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_one.h"
 
 void    ft_init_thread(t_philo **philo)
@@ -22,7 +34,6 @@ void    ft_init_thread(t_philo **philo)
 	pthread_join((*philo)[i].thread, NULL);
 	if ((*philo)[i].nb_of_meal && ft_check_meal(*philo))
 		return ;
-	printf("[%d]\tPhilosopher |%d| is dead\n", g_time.clock - g_time.start, (*philo)[i].id);
 }
 
 void    ft_start(char **argv)

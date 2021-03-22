@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_one.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/22 12:02:47 by jdussert          #+#    #+#             */
+/*   Updated: 2021/03/22 12:02:49 by jdussert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_ONE_H
 # define PHILO_ONE_H
 
@@ -21,6 +33,7 @@ typedef struct	s_time
 	int				time_to_die;
 	long int		time_to_eat;
 	long int		time_to_sleep;
+	int				dead;
 }				t_time;
 
 typedef struct	s_philo
@@ -45,7 +58,7 @@ int			ft_atoi(const char *str);
 long int	ft_gettime(void);
 void		*ft_calloc(size_t count, size_t size);
 void		*ft_routine(void *arg);
-void    	ft_wait(long int);
+void    	ft_wait(long int ms, t_philo *philo);
 int			ft_dead(t_philo *philo);
 void    	ft_clean(t_philo **philo);
 void		*ft_lock_forks(t_philo *philo);
