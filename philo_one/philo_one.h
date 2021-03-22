@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:02:47 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/22 12:16:50 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/22 14:49:12 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ int					ft_atoi(const char *str);
 long int			ft_gettime(void);
 void				*ft_calloc(size_t count, size_t size);
 void				*ft_routine(void *arg);
-void				ft_wait(long int ms, t_philo *philo);
+int					ft_wait(long int ms, t_philo *philo);
 int					ft_dead(t_philo *philo);
 void				ft_clean(t_philo **philo);
 void				*ft_lock_forks(t_philo *philo);
-void				ft_unlock_forks(t_philo *philo);
+void				*ft_unlock_forks(t_philo *philo);
 int					ft_check_meal(t_philo *philo);
 
 #endif
