@@ -6,13 +6,13 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/22 12:03:21 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/22 12:14:53 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-void    ft_init_thread(t_philo **philo)
+void	ft_init_thread(t_philo **philo)
 {
 	int i;
 	int n;
@@ -36,11 +36,11 @@ void    ft_init_thread(t_philo **philo)
 		return ;
 }
 
-void    ft_start(char **argv)
+void	ft_start(char **argv)
 {
-    t_philo		*philo;
-	int			nb_philo;
-	int			i;
+	t_philo	*philo;
+	int		nb_philo;
+	int		i;
 
 	i = -1;
 	nb_philo = ft_atoi(argv[1]);
@@ -53,7 +53,7 @@ void    ft_start(char **argv)
 	ft_clean(&philo);
 }
 
-int	main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		ft_putendl("[ERROR] Wrong number of arguments.");

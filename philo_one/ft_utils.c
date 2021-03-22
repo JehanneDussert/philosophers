@@ -6,13 +6,13 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:30 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/22 12:03:31 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/22 12:12:25 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-int		ft_atoi(const char *str)
+int			ft_atoi(const char *str)
 {
 	int				i;
 	unsigned int	result;
@@ -31,7 +31,7 @@ int		ft_atoi(const char *str)
 	return (result);
 }
 
-void	*ft_calloc(size_t count, size_t size)
+void		*ft_calloc(size_t count, size_t size)
 {
 	char	*r;
 	size_t	i;
@@ -53,43 +53,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (r - i);
 }
 
-void	ft_init_philo(char **argv, t_philo **philo)
-{
-	int	i;
-	int	n;
-
-	i = -1;
-	n = ft_atoi(argv[1]) - 1;
-	while(++i < n)
-	{
-		(*philo)[i].nb_philo = n + 1;
-		(*philo)[i].id = i + 1;
-		(*philo)[i].last_meal = ft_gettime();
-		pthread_mutex_init(&(*philo)[i].fork.lock, NULL);
-		(*philo)[i].n_fork = &(*philo)[i + 1].fork;
-		(*philo)[i].nb_of_meal_eat = 0;
-		if (argv[5])
-			(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
-	}
-	if (argv[5])
-		(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
-	(*philo)[i].last_meal = ft_gettime();
-	pthread_mutex_init(&(*philo)[i].fork.lock, NULL);
-	(*philo)[i].id = i + 1;
-	(*philo)[i].n_fork = &(*philo)[0].fork;
-}
-
-void	ft_init_time(char **argv)
-{
-	g_time.time_to_die = ft_atoi(argv[2]);
-	g_time.time_to_eat = ft_atoi(argv[3]);
-	g_time.time_to_sleep = ft_atoi(argv[4]);
-	g_time.dead = 0;
-	if ((g_time.clock = ft_gettime()) == -1)
-		return ;
-}
-
-long int ft_gettime(void)
+long int	ft_gettime(void)
 {
 	struct timeval	time;
 
@@ -98,7 +62,7 @@ long int ft_gettime(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-int		ft_check_meal(t_philo *philo)
+int			ft_check_meal(t_philo *philo)
 {
 	int i;
 
