@@ -63,6 +63,10 @@ void	ft_init_philo(char **argv, t_philo **philo)
 	pthread_mutex_init(&(*philo)[i].fork.lock, NULL);
 	(*philo)[i].id = i + 1;
 	(*philo)[i].n_fork = &(*philo)[0].fork;
+}
+
+void	ft_init_time(char **argv)
+{
 	g_time.time_to_die = ft_atoi(argv[2]);
 	g_time.time_to_eat = ft_atoi(argv[3]);
 	g_time.time_to_sleep = ft_atoi(argv[4]);

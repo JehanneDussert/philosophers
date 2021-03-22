@@ -36,6 +36,7 @@ void    ft_start(char **argv)
 	philo = ft_calloc((nb_philo), sizeof(*philo));
 	if (!philo)
 		return ;
+	ft_init_time(argv);
 	ft_init_philo(argv, &philo);
 	ft_init_thread(&philo);
 	ft_clean(&philo);

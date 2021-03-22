@@ -40,6 +40,7 @@ t_time	g_time;
 
 void   		ft_putendl(char *str);
 void		ft_init_philo(char **argv, t_philo **philo);
+void		ft_init_time(char **argv);
 int			ft_atoi(const char *str);
 long int	ft_gettime(void);
 void		*ft_calloc(size_t count, size_t size);
