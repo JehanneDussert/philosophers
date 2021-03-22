@@ -6,11 +6,18 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:30 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/22 12:12:25 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/22 14:23:37 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
+
+int			ft_is_ascii(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
 
 int			ft_atoi(const char *str)
 {
@@ -21,13 +28,15 @@ int			ft_atoi(const char *str)
 	result = 0;
 	while (str[i] != '\0' && (str[i] == '\t' || str[i] == '\n' ||
 		str[i] == '\v' || str[i] == '\f' || str[i] == '\r' ||
-		str[i] == ' '))
+		str[i] == ' ') && str[i] != '-' && str[i] == '+')
 		i++;
-	while (str[i] >= '0' && str[i] <= '9')
+	while (str[i] && ft_is_ascii(str[i]))
 	{
 		result = (result * 10) + (str[i] - '0');
 		i++;
 	}
+	if (str[i] && !ft_is_ascii(str[i]))
+		return (-1);
 	return (result);
 }
 
