@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/23 16:18:29 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/23 17:04:57 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	*ft_lock_forks(t_philo *philo)
 		printf("[%d]\tPhilosopher |%d| has taken a fork\n",
 		g_time.clock - g_time.start, philo->id);
 	}
-	pthread_mutex_lock(&philo->n_fork->lock);
+	if (philo->nb_philo > 1)
+		pthread_mutex_lock(&philo->n_fork->lock);
 	if ((g_time.clock = ft_gettime()) == -1 || !ft_dead(philo) || g_time.dead)
 		return (ft_unlock_forks(philo));
 	printf("[%d]\tPhilosopher |%d| has taken a fork\n",
