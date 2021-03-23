@@ -1,6 +1,7 @@
 .gitignore
 theo/
 marc/
+testeur/
 
 # Prerequisites
 *.d
