@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/23 16:53:57 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/23 16:54:50 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	*ft_routine(void *arg)
 		if (!ft_sleep(philo) || !ft_wait(g_time.time_to_sleep, philo)
 			|| !ft_think(philo))
 			return (NULL);
-		usleep(500);
 	}
 	return (NULL);
 }
