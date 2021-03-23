@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/22 14:25:09 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/23 16:15:57 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,15 @@ void	ft_init_thread(t_philo **philo)
 
 	i = -1;
 	n = (*philo)[0].nb_philo;
-	if (gettimeofday(&g_time.time_start, NULL) == -1)
+	if ((g_time.start = ft_gettime()) == -1)
 		return ;
-	g_time.start = ft_gettime();
 	while (++i < n)
-		if (!(i % 2))
+		if (!(i % 2) && !g_time.dead)
 			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
 	i = -1;
-	usleep(500);
+	usleep(1000);
 	while (++i < n)
-		if (i % 2)
+		if (i % 2 && !g_time.dead)
 			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
 	i = -1;
 	while (++i < n)
