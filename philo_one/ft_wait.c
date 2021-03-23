@@ -1,39 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_wait.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
+/*   Updated: 2021/03/22 12:03:16 by jdussert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_one.h"
 
-void    ft_wait(long int ms)
+void    ft_wait(long int ms, t_philo *philo)
 {
 	long int start;
 
 	start = ft_gettime();
-	while (ft_gettime() - start < ms)
+	while (ft_dead(philo) && ft_gettime() - start < ms)
 		usleep(100);
 }
 
 void	*ft_lock_forks(t_philo *philo)
 {
-	if ((g_time.clock = ft_gettime()) == -1 || !g_time.dead || !ft_dead(philo))
+	if (!ft_dead(philo))
 		return (NULL);
-	printf("1 %d %d\n", g_time.dead, ft_dead(philo));
-	if (philo->id % 2 && g_time.dead && ft_dead(philo))
+	if (ft_dead(philo) && philo->id % 2)
 	{
 		pthread_mutex_lock(&philo->fork.lock);
 		printf("[%d]\tPhilosopher |%d| has taken a fork\n", g_time.clock - g_time.start, philo->id);
 	}
-	printf("2 %d %d\n", g_time.dead, ft_dead(philo));
-	if ((g_time.clock = ft_gettime()) == -1 || !g_time.dead || !ft_dead(philo))
+	pthread_mutex_lock(&philo->n_fork->lock);
+	if (!ft_dead(philo))
 		return (NULL);
-	printf("3 %d %d\n", g_time.dead, ft_dead(philo));
-	if (g_time.dead && ft_dead(philo))
-	{
-		printf("la 4 %d %d\n", g_time.dead, ft_dead(philo));
-		pthread_mutex_lock(&philo->n_fork->lock);
-		printf("[%d]\tPhilosopher |%d| has taken a fork\n", g_time.clock - g_time.start, philo->id);
-	}
-	if ((g_time.clock = ft_gettime()) == -1 || !g_time.dead || !ft_dead(philo))
-		return (NULL);
-	printf("end\n");
-	printf("5 %d %d\n", g_time.dead, ft_dead(philo));
-	if (!(philo->id % 2) && g_time.dead && ft_dead(philo))
+	printf("[%d]\tPhilosopher |%d| has taken a fork\n", g_time.clock - g_time.start, philo->id);
+	if (ft_dead(philo) && !(philo->id % 2))
 	{
 		pthread_mutex_lock(&philo->fork.lock);
 		printf("[%d]\tPhilosopher |%d| has taken a fork\n", g_time.clock - g_time.start, philo->id);

@@ -4,7 +4,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3 -pthread
 
-SRCS = main.c ft_utils.c ft_print.c ft_pthread.c ft_routine.c ft_wait.c ft_clean.c
+SRCS = main.c ft_utils.c ft_print.c ft_routine.c ft_wait.c ft_clean.c
 
 OBJS	= ${SRCS:.c=.o}
 
