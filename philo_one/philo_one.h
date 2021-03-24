@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:02:47 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/24 12:26:19 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/24 16:48:13 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ typedef struct		s_fork
 
 typedef struct		s_time
 {
-	struct timeval	time_start;
-	struct timeval	time;
 	long int		start;
 	long int		time_to_die;
 	long int		time_to_eat;
@@ -42,7 +40,6 @@ typedef struct		s_philo
 	int				nb_philo;
 	long int		last_meal;
 	int				id;
-	t_time			*time;
 	t_fork			fork;
 	t_fork			*n_fork;
 	pthread_t		thread;

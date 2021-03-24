@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:11:33 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/24 12:26:26 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/24 16:47:38 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void		ft_init_philo(char **argv, t_philo **philo)
 			(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
 	}
 	(*philo)[i].nb_philo = n + 1;
-	(*philo)[i].id = i + 1;
 	if (argv[5])
 		(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
 	(*philo)[i].last_meal = ft_gettime();
