@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:11:33 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/23 17:05:46 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/24 12:26:26 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,4 @@ void		ft_init_time(char **argv)
 	g_time.time_to_eat = ft_atoi(argv[3]);
 	g_time.time_to_sleep = ft_atoi(argv[4]);
 	g_time.dead = 0;
-	if ((g_time.clock = ft_gettime()) == -1)
-		return ;
 }
