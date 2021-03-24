@@ -6,13 +6,13 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/24 16:58:58 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/24 17:00:21 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //  sem_open, sem_close, sem_post, sem_wait, sem_unlink
 
-#include "philo_one.h"
+#include "philo_two.h"
 
 int		ft_check_params(char **argv)
 {

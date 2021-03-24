@@ -6,11 +6,11 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:23 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/22 12:07:51 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/24 17:00:18 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_two.h"
 
 void	ft_putendl(char *str)
 {
