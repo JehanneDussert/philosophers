@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/25 14:33:43 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 16:01:48 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/stat.h>
 # include <semaphore.h>
 # include <sys/ipc.h>
+# include <sys/wait.h>
 
 # define SEM_NAME "forks"
 

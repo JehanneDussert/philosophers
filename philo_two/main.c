@@ -6,18 +6,9 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/25 14:35:03 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 15:52:00 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*  
-	sem_open : sem_t *sem_open(const char *name, int oflag); -> ouvrir et 
-	initialiser un semaphore nommé
-	sem_close : int sem_close(sem_t *sem); -> fermer un semaphore nommé
-	sem_post : int sem_post(sem_t *sem); -> deverouiller un semaphore
-	sem_wait : int sem_wait(sem_t *sem); -> verrouiller un semaphore
-	sem_unlink : int sem_unlink(const char *name); -> supprimer un semaphore nommé
-*/
 
 #include "philo_two.h"
 
