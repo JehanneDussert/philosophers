@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/24 17:15:42 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 14:35:03 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int		ft_start(char **argv)
 	i = -1;
 	if (!ft_check_params(argv))
 		return (0);
+	sem_unlink(SEM_NAME);
 	nb_philo = ft_atoi(argv[1]);
 	philo = ft_calloc((nb_philo), sizeof(*philo));
 	if (!philo)

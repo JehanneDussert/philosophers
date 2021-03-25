@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/24 17:00:19 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 14:54:28 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int		ft_dead(t_philo *philo)
 		g_time.dead = 1;
 		printf("[%ld]\tPhilosopher |%d| died\n", ft_gettime() - g_time.start,
 		philo->id);
-		exit(0);
 		return (0);
 	}
 	else if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
@@ -71,9 +70,9 @@ void	*ft_routine(void *arg)
 			return (NULL);
 		if (!ft_eat(philo))
 			return (NULL);
+		philo->last_meal = ft_gettime();
 		if (!ft_wait(g_time.time_to_eat, philo))
 			return (NULL);
-		philo->last_meal = ft_gettime();
 		ft_unlock_forks(philo);
 		if (!ft_sleep(philo) || !ft_wait(g_time.time_to_sleep, philo)
 			|| !ft_think(philo))

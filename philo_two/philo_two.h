@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/24 17:04:06 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 14:33:43 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,20 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <semaphore.h>
+# include <sys/ipc.h>
+
+# define SEM_NAME "forks"
 
 typedef struct		s_fork
 {
 	pthread_mutex_t	lock;
 }					t_fork;
+
+typedef struct 		s_my_sem
+{
+	sem_t			*forks;
+}					t_my_sem;
+
 
 typedef struct		s_time
 {
@@ -43,11 +52,11 @@ typedef struct		s_philo
 	int				nb_philo;
 	long int		last_meal;
 	int				id;
-	t_fork			fork;
-	t_fork			*n_fork;
 	pthread_t		thread;
 }					t_philo;
 
+int					g_nb_forks;
+t_my_sem			g_forks;
 t_time				g_time;
 
 void				ft_putendl(char *str);

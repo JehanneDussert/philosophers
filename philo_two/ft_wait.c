@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/24 17:00:20 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 14:34:19 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,20 @@ void	*ft_lock_forks(t_philo *philo)
 		return (NULL);
 	if (ft_dead(philo) && philo->id % 2)
 	{
-		pthread_mutex_lock(&philo->fork.lock);
+		sem_wait(g_forks.forks);
 		if (ft_gettime() == -1 || !ft_dead(philo))
 			return (ft_unlock_forks(philo));
 		printf("[%ld]\tPhilosopher |%d| has taken a fork\n",
 		ft_gettime() - g_time.start, philo->id);
 	}
-	if (philo->nb_philo > 1)
-		pthread_mutex_lock(&philo->n_fork->lock);
+	sem_wait(g_forks.forks);
 	if (ft_gettime() == -1 || !ft_dead(philo) || g_time.dead)
 		return (ft_unlock_forks(philo));
 	printf("[%ld]\tPhilosopher |%d| has taken a fork\n",
 	ft_gettime() - g_time.start, philo->id);
 	if (ft_dead(philo) && !(philo->id % 2))
 	{
-		pthread_mutex_lock(&philo->fork.lock);
+		sem_wait(g_forks.forks);
 		if (ft_gettime() == -1 || !ft_dead(philo))
 			return (ft_unlock_forks(philo));
 		printf("[%ld]\tPhilosopher |%d| has taken a fork\n",
@@ -57,7 +56,8 @@ void	*ft_lock_forks(t_philo *philo)
 
 void	*ft_unlock_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo->fork.lock);
-	pthread_mutex_unlock(&philo->n_fork->lock);
+	(void)philo;
+	sem_post(g_forks.forks);
+	sem_post(g_forks.forks);
 	return (NULL);
 }
