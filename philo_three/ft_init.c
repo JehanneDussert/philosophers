@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:11:33 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/25 15:01:03 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 17:03:26 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ void		ft_init_time(char **argv)
 	g_time.time_to_die = ft_atoi(argv[2]);
 	g_time.time_to_eat = ft_atoi(argv[3]);
 	g_time.time_to_sleep = ft_atoi(argv[4]);
-	g_time.dead = 0;
+	if ((g_time.dead = sem_open(DEAD, IPC_CREAT, 0666, 1)) == SEM_FAILED)
+		printf("error\n");
 }

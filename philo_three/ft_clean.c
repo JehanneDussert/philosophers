@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:27 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/25 15:01:00 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 16:52:10 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,9 @@ void	ft_clean(t_philo **philo)
 	if (sem_close(g_forks.forks) == -1)
 		return ;
 	else if (sem_unlink(SEM_NAME) == -1)
+		return ;
+	else if (sem_close(g_time.dead) == -1)
+		return ;
+	else if (sem_unlink(DEAD) == -1)
 		return ;
 }

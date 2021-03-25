@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/25 15:00:19 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 16:50:57 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@
 # include <sys/stat.h>
 # include <semaphore.h>
 # include <sys/ipc.h>
+# include <signal.h>
 
 # define SEM_NAME "forks"
+# define DEAD "dead"
 
 typedef struct		s_fork
 {
@@ -42,7 +44,7 @@ typedef struct		s_time
 	long int		time_to_die;
 	long int		time_to_eat;
 	long int		time_to_sleep;
-	int				dead;
+	sem_t			*dead;
 }					t_time;
 
 typedef struct		s_philo
@@ -65,7 +67,7 @@ void				ft_init_time(char **argv);
 int					ft_atoi(const char *str);
 long int			ft_gettime(void);
 void				*ft_calloc(size_t count, size_t size);
-void				*ft_routine(void *arg);
+void				ft_routine(void *arg);
 int					ft_wait(long int ms, t_philo *philo);
 int					ft_dead(t_philo *philo);
 void				ft_clean(t_philo **philo);

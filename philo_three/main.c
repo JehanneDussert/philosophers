@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/25 15:01:07 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/25 17:00:22 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,31 @@ int		ft_check_params(char **argv)
 
 void	ft_init_thread(t_philo **philo)
 {
-	int i;
-	int n;
+	int		i;
+	int		n;
+	pid_t	*pid;
+	int		status;
 
 	i = -1;
 	n = (*philo)[0].nb_philo;
+	pid = ft_calloc((n), sizeof(*pid));
+	if (!pid)
+		return ;
 	if ((g_time.start = ft_gettime()) == -1)
 		return ;
 	while (++i < n)
-		if (!(i % 2) && !g_time.dead)
-			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
+		if (!(i % 2) && g_time.dead)
+			if ((pid[i] = fork()) == 0)
+				ft_routine(&(*philo)[i]);
 	i = -1;
 	usleep(1000);
 	while (++i < n)
-		if (i % 2 && !g_time.dead)
-			pthread_create(&(*philo)[i].thread, NULL, ft_routine, &(*philo)[i]);
+		if (i % 2 && g_time.dead)
+			if ((pid[i] = fork()) == 0)
+				ft_routine(&(*philo)[i]);
 	i = -1;
 	while (++i < n)
-		pthread_join((*philo)[i].thread, NULL);
+		waitpid(pid[i], &status, 0);
 	if ((*philo)[i - 1].nb_of_meal && ft_check_meal(*philo))
 		return ;
 }
@@ -57,6 +64,7 @@ int		ft_start(char **argv)
 	if (!ft_check_params(argv))
 		return (0);
 	sem_unlink(SEM_NAME);
+	sem_unlink(DEAD);
 	nb_philo = ft_atoi(argv[1]);
 	philo = ft_calloc((nb_philo), sizeof(*philo));
 	if (!philo)
