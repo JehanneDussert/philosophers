@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/25 17:03:53 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/26 14:47:15 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,15 @@ int		ft_dead(t_philo *philo)
 	return (0);
 }
 
-void	ft_routine(void *arg)
+void	*ft_routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	//printf("enter there %d\n", philo->id);
 	while (ft_dead(philo) && g_time.dead)
 	{
+		//printf("enter here %d\n", philo->id);
 		if (!g_time.dead || ft_lock_forks(philo) == NULL || !ft_dead(philo))
 			exit (0);
 		if (!ft_eat(philo))

@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/25 16:50:57 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/26 14:42:47 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct		s_philo
 	long int		last_meal;
 	int				id;
 	pthread_t		thread;
+	pid_t			pid;
 }					t_philo;
 
 int					g_nb_forks;
@@ -67,7 +68,7 @@ void				ft_init_time(char **argv);
 int					ft_atoi(const char *str);
 long int			ft_gettime(void);
 void				*ft_calloc(size_t count, size_t size);
-void				ft_routine(void *arg);
+void				*ft_routine(void *arg);
 int					ft_wait(long int ms, t_philo *philo);
 int					ft_dead(t_philo *philo);
 void				ft_clean(t_philo **philo);
