@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:11:33 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/26 11:11:54 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/30 14:18:16 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void		ft_init_philo(char **argv, t_philo **philo)
 	}
 	if ((g_forks.forks = sem_open(SEM_NAME, IPC_CREAT, 0666, g_nb_forks)) == SEM_FAILED)
 		printf("error\n");
+	g_dead = 0;
 }
 
 void		ft_init_time(char **argv)

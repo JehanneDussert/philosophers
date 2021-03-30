@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/26 14:42:47 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/30 14:17:48 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct		s_philo
 }					t_philo;
 
 int					g_nb_forks;
+int					g_dead;
 t_my_sem			g_forks;
 t_time				g_time;
 
