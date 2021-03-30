@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/30 15:16:54 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/30 15:23:38 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,18 @@ int		ft_check_params(char **argv)
 	return (1);
 }
 
-void	ft_init_thread(t_philo philo, int n)
+void	ft_init_thread(t_philo philo)
 {
 	int i;
 
 	i = -1;
 	if ((g_time.start = ft_gettime()) == -1)
 		return ;
-	while (++i < n)
-		if (!(i % 2))
-			pthread_create(&philo.thread, NULL, ft_routine, &philo);
-	i = -1;
+	if ((philo.id % 2))
+		pthread_create(&philo.thread, NULL, ft_routine, &philo);
 	usleep(1000);
-	while (++i < n)
-		if (i % 2)
-			pthread_create(&philo.thread, NULL, ft_routine, &philo);
-	i = -1;
-	while (++i < n)
-		pthread_join(philo.thread, NULL);
+	if (!(philo.id % 2))
+		pthread_create(&philo.thread, NULL, ft_routine, &philo);
 }
 
 void	ft_init_fork(t_philo **philo)
@@ -54,10 +48,13 @@ void	ft_init_fork(t_philo **philo)
 	while (++i < n)
 	{
 		if (((*philo)[i].pid = fork()) == 0)
-			ft_init_thread((*philo)[i], n);
+			ft_init_thread((*philo)[i]);
 		else if (((*philo)[i].pid = fork()) == -1)
 			return (ft_putendl("[ERROR] Fork error."));
 	}
+	i = -1;
+	while (++i < n)
+		pthread_join((*philo)[i].thread, NULL);
 	i = -1;
 	while (++i < n)
 		if ( (*philo)[i].pid == 0)
