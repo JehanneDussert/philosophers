@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/30 15:23:38 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/30 15:49:02 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_init_thread(t_philo philo)
 	i = -1;
 	if ((g_time.start = ft_gettime()) == -1)
 		return ;
-	if ((philo.id % 2))
+	else if ((philo.id % 2))
 		pthread_create(&philo.thread, NULL, ft_routine, &philo);
 	usleep(1000);
 	if (!(philo.id % 2))
@@ -45,10 +45,10 @@ void	ft_init_fork(t_philo **philo)
 
 	if ((g_time.start = ft_gettime()) == -1)
 		return ;
-	while (++i < n)
+	while (++i < n && !g_dead)
 	{
 		if (((*philo)[i].pid = fork()) == 0)
-			ft_init_thread((*philo)[i]);
+			ft_routine(&(*philo)[i]); //ft_init_thread((*philo)[i]);
 		else if (((*philo)[i].pid = fork()) == -1)
 			return (ft_putendl("[ERROR] Fork error."));
 	}

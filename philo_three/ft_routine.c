@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/30 15:23:47 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/30 15:52:51 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,13 @@ int		ft_think(t_philo *philo)
 	return (1);
 }
 
-int		ft_dead(t_philo *philo)
+void	*ft_dead(void *arg)
 {
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
 	if (g_dead)
-		return (0);
+		exit (0);
 	else if (ft_gettime() - philo->last_meal > g_time.time_to_die)
 	{
 		sem_wait(g_time.dead);
@@ -53,11 +56,11 @@ int		ft_dead(t_philo *philo)
 		exit (0);
 	}
 	else if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
-		return (0);
-	else if (philo->nb_of_meal_eat < philo->nb_of_meal ||
-			philo->nb_of_meal == 0)
-		return (3);
-	return (0);
+		exit (0);
+	//else if (philo->nb_of_meal_eat < philo->nb_of_meal ||
+	//		philo->nb_of_meal == 0)
+	//	return (3);
+	exit (1);
 }
 
 void	*ft_routine(void *arg)
@@ -65,6 +68,7 @@ void	*ft_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	pthread_create(&philo->thread, NULL, ft_dead, &philo);
 	while (ft_dead(philo) && !g_dead)
 	{
 		if (g_dead || !g_time.dead || ft_lock_forks(philo) == NULL || !ft_dead(philo))

@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/30 14:17:48 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/30 15:52:08 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ long int			ft_gettime(void);
 void				*ft_calloc(size_t count, size_t size);
 void				*ft_routine(void *arg);
 int					ft_wait(long int ms, t_philo *philo);
-int					ft_dead(t_philo *philo);
+void				*ft_dead(void *arg);
 void				ft_clean(t_philo **philo);
 void				*ft_lock_forks(t_philo *philo);
 void				*ft_unlock_forks(t_philo *philo);
