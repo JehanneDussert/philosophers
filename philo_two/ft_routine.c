@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/26 15:54:35 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/30 13:51:07 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_eat(t_philo *philo)
 {
-	if (ft_gettime() == -1 || !ft_dead(philo) || g_time.dead)
+	if (ft_gettime() == -1 || g_time.dead)
 		return (0);
 	printf("[%ld]\tPhilosopher |%d| is eating\n", ft_gettime() - g_time.start,
 	philo->id);
@@ -24,7 +24,7 @@ int		ft_eat(t_philo *philo)
 
 int		ft_sleep(t_philo *philo)
 {
-	if (ft_gettime() == -1 || !ft_dead(philo) || g_time.dead)
+	if (ft_gettime() == -1 || g_time.dead)
 		return (0);
 	printf("[%ld]\tPhilosopher |%d| is sleeping\n", ft_gettime() - g_time.start,
 	philo->id);
@@ -33,7 +33,7 @@ int		ft_sleep(t_philo *philo)
 
 int		ft_think(t_philo *philo)
 {
-	if (ft_gettime() == -1 || !ft_dead(philo) || g_time.dead)
+	if (ft_gettime() == -1 || g_time.dead)
 		return (0);
 	printf("[%ld]\tPhilosopher |%d| is thinking\n", ft_gettime() - g_time.start,
 	philo->id);
@@ -59,6 +59,8 @@ int		ft_dead(t_philo *philo)
 	return (0);
 }
 
+// to do : proteger les printf avec un semaphore, avant printf wait, apres post
+
 void	*ft_routine(void *arg)
 {
 	t_philo	*philo;
@@ -74,6 +76,8 @@ void	*ft_routine(void *arg)
 		if (!ft_wait(g_time.time_to_eat, philo))
 			return (NULL);
 		ft_unlock_forks(philo);
+		if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
+			return (NULL);
 		if (!ft_sleep(philo) || !ft_wait(g_time.time_to_sleep, philo)
 			|| !ft_think(philo))
 			return (NULL);
