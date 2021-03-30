@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/30 15:11:11 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/03/30 15:16:54 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	ft_init_thread(t_philo philo, int n)
 	if ((g_time.start = ft_gettime()) == -1)
 		return ;
 	while (++i < n)
-		if (!(i % 2) && !g_time.dead)
+		if (!(i % 2))
 			pthread_create(&philo.thread, NULL, ft_routine, &philo);
 	i = -1;
 	usleep(1000);
 	while (++i < n)
-		if (i % 2 && !g_time.dead)
+		if (i % 2)
 			pthread_create(&philo.thread, NULL, ft_routine, &philo);
 	i = -1;
 	while (++i < n)
@@ -51,9 +51,9 @@ void	ft_init_fork(t_philo **philo)
 
 	if ((g_time.start = ft_gettime()) == -1)
 		return ;
-	while (++i < n && g_time.dead)
+	while (++i < n)
 	{
-		if (((*philo)[i].pid = fork()) == 0 && g_time.dead)
+		if (((*philo)[i].pid = fork()) == 0)
 			ft_init_thread((*philo)[i], n);
 		else if (((*philo)[i].pid = fork()) == -1)
 			return (ft_putendl("[ERROR] Fork error."));
