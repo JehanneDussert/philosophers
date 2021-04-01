@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/30 15:52:08 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/01 15:15:32 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@
 # include <sys/stat.h>
 # include <semaphore.h>
 # include <sys/ipc.h>
+# include <sys/wait.h>
 # include <signal.h>
 
 # define SEM_NAME "forks"
-# define DEAD "dead"
+# define FORK -1
+# define DEATH 0
+# define EAT 1
+# define DONE 2
 
 typedef struct		s_fork
 {
@@ -44,7 +48,7 @@ typedef struct		s_time
 	long int		time_to_die;
 	long int		time_to_eat;
 	long int		time_to_sleep;
-	sem_t			*dead;
+	int				dead;
 }					t_time;
 
 typedef struct		s_philo
@@ -59,7 +63,6 @@ typedef struct		s_philo
 }					t_philo;
 
 int					g_nb_forks;
-int					g_dead;
 t_my_sem			g_forks;
 t_time				g_time;
 
@@ -71,7 +74,7 @@ long int			ft_gettime(void);
 void				*ft_calloc(size_t count, size_t size);
 void				*ft_routine(void *arg);
 int					ft_wait(long int ms, t_philo *philo);
-void				*ft_dead(void *arg);
+int					ft_dead(t_philo *philo);
 void				ft_clean(t_philo **philo);
 void				*ft_lock_forks(t_philo *philo);
 void				*ft_unlock_forks(t_philo *philo);

@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/30 15:49:02 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/01 15:20:53 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,44 +23,35 @@ int		ft_check_params(char **argv)
 	return (1);
 }
 
-void	ft_init_thread(t_philo philo)
-{
-	int i;
-
-	i = -1;
-	if ((g_time.start = ft_gettime()) == -1)
-		return ;
-	else if ((philo.id % 2))
-		pthread_create(&philo.thread, NULL, ft_routine, &philo);
-	usleep(1000);
-	if (!(philo.id % 2))
-		pthread_create(&philo.thread, NULL, ft_routine, &philo);
-}
-
 void	ft_init_fork(t_philo **philo)
 {
-	int i = -1;
-	int n = (*philo)[0].nb_philo;
-	int status;
+	int i;
+	int n;
 
+	i = 0;
+	n = (*philo)[0].nb_philo;
 	if ((g_time.start = ft_gettime()) == -1)
 		return ;
-	while (++i < n && !g_dead)
+	while (i < n)
 	{
 		if (((*philo)[i].pid = fork()) == 0)
-			ft_routine(&(*philo)[i]); //ft_init_thread((*philo)[i]);
+			ft_routine(&(*philo)[i]);
 		else if (((*philo)[i].pid = fork()) == -1)
-			return (ft_putendl("[ERROR] Fork error."));
+			exit(FORK);
+		i += 2;
 	}
-	i = -1;
-	while (++i < n)
-		pthread_join((*philo)[i].thread, NULL);
-	i = -1;
-	while (++i < n)
-		if ( (*philo)[i].pid == 0)
-			waitpid((*philo)[i].pid, &status, 0);
-	if ((*philo)[i - 1].nb_of_meal && ft_check_meal(*philo))
-		return ;
+	i = 1;
+	usleep(1000);
+	while (i < n)
+	{
+		if (((*philo)[i].pid = fork()) == 0)
+			ft_routine(&(*philo)[i]);
+		else if (((*philo)[i].pid = fork()) == -1)
+			exit(FORK);
+		i += 2;
+	}
+	//if ((*philo)[i - 1].nb_of_meal && ft_check_meal(*philo))
+	//	return ;
 }
 
 int		ft_start(char **argv)
@@ -73,7 +64,6 @@ int		ft_start(char **argv)
 	if (!ft_check_params(argv))
 		return (0);
 	sem_unlink(SEM_NAME);
-	sem_unlink(DEAD);
 	nb_philo = ft_atoi(argv[1]);
 	philo = ft_calloc((nb_philo), sizeof(*philo));
 	if (!philo)
@@ -81,9 +71,6 @@ int		ft_start(char **argv)
 	ft_init_time(argv);
 	ft_init_philo(argv, &philo);
 	ft_init_fork(&philo);
-	//ft_init_thread(&philo);
-	//while (++i < nb_philo)
-	//	kill(philo[i].pid, SIGQUIT);
 	ft_clean(&philo);
 	return (1);
 }

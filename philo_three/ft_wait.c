@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/30 15:20:40 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/01 14:59:34 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 int		ft_wait(long int ms, t_philo *philo)
 {
 	long int	start;
-	(void)philo;
-	
+
 	start = ft_gettime();
-	while (ft_gettime() - start < ms && !g_dead)
+	while (ft_dead(philo) && ft_gettime() - start < ms && !g_time.dead)
 	{
-		if (g_dead)
+		if (!ft_dead(philo) || g_time.dead)
 			return (0);
 		usleep(100);
 	}
@@ -29,25 +28,25 @@ int		ft_wait(long int ms, t_philo *philo)
 
 void	*ft_lock_forks(t_philo *philo)
 {
-	if (g_dead)
+	if (!ft_dead(philo))
 		return (NULL);
-	if (!g_dead && philo->id % 2)
+	if (ft_dead(philo) && philo->id % 2)
 	{
 		sem_wait(g_forks.forks);
-		if (ft_gettime() == -1 || g_dead)
+		if (ft_gettime() == -1 || !ft_dead(philo))
 			return (ft_unlock_forks(philo));
 		printf("[%ld]\tPhilosopher |%d| has taken a fork\n",
 		ft_gettime() - g_time.start, philo->id);
 	}
 	sem_wait(g_forks.forks);
-	if (ft_gettime() == -1 || g_dead)
+	if (ft_gettime() == -1 || !ft_dead(philo) || g_time.dead)
 		return (ft_unlock_forks(philo));
 	printf("[%ld]\tPhilosopher |%d| has taken a fork\n",
 	ft_gettime() - g_time.start, philo->id);
-	if (!g_dead && !(philo->id % 2))
+	if (ft_dead(philo) && !(philo->id % 2))
 	{
 		sem_wait(g_forks.forks);
-		if (ft_gettime() == -1 || g_dead)
+		if (ft_gettime() == -1 || !ft_dead(philo))
 			return (ft_unlock_forks(philo));
 		printf("[%ld]\tPhilosopher |%d| has taken a fork\n",
 		ft_gettime() - g_time.start, philo->id);
