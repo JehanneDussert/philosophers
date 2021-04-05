@@ -27,7 +27,7 @@ void		ft_init_philo(char **argv, t_philo **philo)
 		if (argv[5])
 			(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
 	}
-	if ((g_forks.forks = sem_open(SEM_NAME, IPC_CREAT, 0666, g_nb_forks)) == SEM_FAILED)
+	if ((g_forks.forks = sem_open(SEM_NAME, O_CREAT, 644, g_nb_forks)) == SEM_FAILED)
 		printf("error\n");
 }
 

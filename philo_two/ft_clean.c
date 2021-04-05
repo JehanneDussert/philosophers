@@ -14,11 +14,6 @@
 
 void	ft_clean(t_philo **philo)
 {
-	int	i;
-	int	n;
-
-	i = -1;
-	n = (*philo)[0].nb_philo;
 	if (!philo)
 		return ;
 	free(*philo);

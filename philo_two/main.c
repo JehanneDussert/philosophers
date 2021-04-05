@@ -51,9 +51,7 @@ int		ft_start(char **argv)
 {
 	t_philo	*philo;
 	int		nb_philo;
-	int		i;
 
-	i = -1;
 	if (!ft_check_params(argv))
 		return (0);
 	sem_unlink(SEM_NAME);
