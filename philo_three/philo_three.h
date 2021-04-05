@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/01 15:15:32 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/05 16:52:48 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <signal.h>
 
 # define SEM_NAME "forks"
+# define LOCK "lock"
 # define FORK -1
 # define DEATH 0
 # define EAT 1
@@ -65,6 +66,7 @@ typedef struct		s_philo
 int					g_nb_forks;
 t_my_sem			g_forks;
 t_time				g_time;
+sem_t				*g_lock;
 
 void				ft_putendl(char *str);
 void				ft_init_philo(char **argv, t_philo **philo);
@@ -74,9 +76,9 @@ long int			ft_gettime(void);
 void				*ft_calloc(size_t count, size_t size);
 void				*ft_routine(void *arg);
 int					ft_wait(long int ms, t_philo *philo);
-int					ft_dead(t_philo *philo);
+void				*ft_dead(t_philo *philo);
 void				ft_clean(t_philo **philo);
-void				*ft_lock_forks(t_philo *philo);
+void				ft_lock_forks(t_philo *philo);
 void				*ft_unlock_forks(t_philo *philo);
 int					ft_check_meal(t_philo *philo);
 

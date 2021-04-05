@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/01 15:20:53 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/05 16:05:42 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,28 @@ void	ft_init_fork(t_philo **philo)
 {
 	int i;
 	int n;
+	int status;
+	int ret;
 
-	i = 0;
+	i = -1;
 	n = (*philo)[0].nb_philo;
 	if ((g_time.start = ft_gettime()) == -1)
 		return ;
-	while (i < n)
-	{
+	while (++i < n)
 		if (((*philo)[i].pid = fork()) == 0)
 			ft_routine(&(*philo)[i]);
-		else if (((*philo)[i].pid = fork()) == -1)
-			exit(FORK);
-		i += 2;
-	}
-	i = 1;
 	usleep(1000);
-	while (i < n)
+	i = -1;
+	while (++i < n)
 	{
-		if (((*philo)[i].pid = fork()) == 0)
-			ft_routine(&(*philo)[i]);
-		else if (((*philo)[i].pid = fork()) == -1)
-			exit(FORK);
-		i += 2;
+		wait(&status);
+		ret = WEXITSTATUS(status);
+		if (ret == DEATH)
+			while (++i < n)
+				kill((*philo)[i].pid, SIGQUIT);
+		else if (ret == EAT)
+			return ;
 	}
-	//if ((*philo)[i - 1].nb_of_meal && ft_check_meal(*philo))
-	//	return ;
 }
 
 int		ft_start(char **argv)
@@ -64,6 +61,7 @@ int		ft_start(char **argv)
 	if (!ft_check_params(argv))
 		return (0);
 	sem_unlink(SEM_NAME);
+	sem_unlink(LOCK);
 	nb_philo = ft_atoi(argv[1]);
 	philo = ft_calloc((nb_philo), sizeof(*philo));
 	if (!philo)
