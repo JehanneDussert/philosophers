@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/05 16:52:43 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:03:24 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int		ft_wait(long int ms, t_philo *philo)
 	(void)philo;
 	while (ft_gettime() - start < ms)
 	{
-		if (ft_dead(philo))
-			return (0);
+		//if (ft_dead(philo))
+		//	return (0);
 		usleep(100);
 	}
 	return (1);

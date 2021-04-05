@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/05 16:52:48 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:12:24 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int					ft_wait(long int ms, t_philo *philo);
 void				*ft_dead(t_philo *philo);
 void				ft_clean(t_philo **philo);
 void				ft_lock_forks(t_philo *philo);
-void				*ft_unlock_forks(t_philo *philo);
 int					ft_check_meal(t_philo *philo);
 
 #endif

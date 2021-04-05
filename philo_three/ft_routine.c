@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/05 16:52:08 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:13:57 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		ft_eat(t_philo *philo)
 {
+	if (ft_gettime() == -1 || ft_dead(philo) || g_time.dead)
+		return (0);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| is eating\n", ft_gettime() - g_time.start,
 	philo->id);
@@ -24,6 +26,8 @@ int		ft_eat(t_philo *philo)
 
 int		ft_sleep(t_philo *philo)
 {
+	if (ft_gettime() == -1 || ft_dead(philo))
+		return (0);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| is sleeping\n", ft_gettime() - g_time.start,
 	philo->id);
@@ -33,6 +37,8 @@ int		ft_sleep(t_philo *philo)
 
 int		ft_think(t_philo *philo)
 {
+	if (ft_gettime() == -1 || ft_dead(philo) || g_time.dead)
+		return (0);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| is thinking\n", ft_gettime() - g_time.start,
 	philo->id);
