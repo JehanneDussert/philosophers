@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:11:33 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/25 14:37:11 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/05 18:04:53 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void		ft_init_philo(char **argv, t_philo **philo)
 		if (argv[5])
 			(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
 	}
-	if ((g_forks.forks = sem_open(SEM_NAME, O_CREAT, 644, g_nb_forks)) == SEM_FAILED)
-		printf("error\n");
+	if ((g_forks.forks = sem_open(SEM_NAME, O_CREAT, 644, g_nb_forks))
+		== SEM_FAILED)
+		printf("[ERROR] Can't open semaphore.\n");
+	else if ((g_lock = sem_open(LOCK, O_CREAT, 644, 1)) == SEM_FAILED)
+		printf("[ERROR] Can't open semaphore.\n");
 }
 
 void		ft_init_time(char **argv)
