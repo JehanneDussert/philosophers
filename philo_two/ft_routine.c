@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/06 12:21:29 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/06 18:12:02 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_eat(t_philo *philo)
 {
-	if (ft_gettime() == -1 || g_time.dead)
+	if (g_time.dead)
 		return (0);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| is eating\n", ft_gettime() - g_time.start,
@@ -26,23 +26,32 @@ int		ft_eat(t_philo *philo)
 
 int		ft_sleep(t_philo *philo)
 {
-	if (ft_gettime() == -1 || g_time.dead)
+	if (g_time.dead)
 		return (0);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| is sleeping\n", ft_gettime() - g_time.start,
 	philo->id);
 	sem_post(g_lock);
+	philo->nb_of_meal_eat++;
 	return (1);
 }
 
 int		ft_think(t_philo *philo)
 {
-	if (ft_gettime() == -1 || g_time.dead)
+	if (g_time.dead)
 		return (0);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| is thinking\n", ft_gettime() - g_time.start,
 	philo->id);
 	sem_post(g_lock);
+	philo->nb_of_meal_eat++;
+	return (1);
+}
+
+int		ft_meals(t_philo *philo)
+{
+	if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
+		return (0);
 	return (1);
 }
 
@@ -53,17 +62,12 @@ int		ft_dead(t_philo *philo)
 	else if (ft_gettime() - philo->last_meal > g_time.time_to_die)
 	{
 		g_time.dead = 1;
-		sem_wait(g_lock);
+		//sem_wait(g_lock);
 		printf("[%ld]\tPhilosopher |%d| died\n", ft_gettime() - g_time.start,
 		philo->id);
 		return (0);
 	}
-	else if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
-		return (0);
-	else if (philo->nb_of_meal_eat < philo->nb_of_meal ||
-			philo->nb_of_meal == 0)
-		return (3);
-	return (0);
+	return (1);
 }
 
 void	*ft_routine(void *arg)
@@ -73,19 +77,17 @@ void	*ft_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (ft_dead(philo) && !g_time.dead)
 	{
-		if (g_time.dead || !ft_dead(philo))
-			return (NULL);
 		ft_lock_forks(philo);
-		if (!ft_eat(philo))
-			return (NULL);
+		ft_eat(philo);
+		ft_wait(g_time.time_to_eat, philo);
 		philo->last_meal = ft_gettime();
-		if (!ft_wait(g_time.time_to_eat, philo))
+		ft_unlock_forks();
+		if (!ft_meals(philo) || !ft_dead(philo))
 			return (NULL);
-		if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
-			return (NULL);
-		if (!ft_sleep(philo) || !ft_wait(g_time.time_to_sleep, philo)
-			|| !ft_think(philo))
-			return (NULL);
+		ft_sleep(philo);
+		ft_wait(g_time.time_to_sleep, philo);
+		ft_think(philo);
+		ft_dead(philo);
 	}
 	return (NULL);
 }
