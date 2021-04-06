@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:11:33 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/24 16:47:38 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/06 14:51:01 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void		ft_init_philo(char **argv, t_philo **philo)
 		(*philo)[i].nb_of_meal = ft_atoi(argv[5]);
 	(*philo)[i].last_meal = ft_gettime();
 	pthread_mutex_init(&(*philo)[i].fork.lock, NULL);
+	pthread_mutex_init(&g_print, NULL);
 	(*philo)[i].id = i + 1;
 	(*philo)[i].n_fork = &(*philo)[0].fork;
 }

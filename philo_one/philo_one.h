@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:02:47 by jdussert          #+#    #+#             */
-/*   Updated: 2021/03/24 16:48:13 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/06 15:55:22 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct		s_philo
 }					t_philo;
 
 t_time				g_time;
+pthread_mutex_t		g_print;
 
 void				ft_putendl(char *str);
 void				ft_init_philo(char **argv, t_philo **philo);
