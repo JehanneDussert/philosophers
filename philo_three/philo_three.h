@@ -6,12 +6,12 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/05 16:52:48 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/05 18:08:23 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_THREE
-# define PHILO_THREE
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -37,11 +37,10 @@ typedef struct		s_fork
 	pthread_mutex_t	lock;
 }					t_fork;
 
-typedef struct 		s_my_sem
+typedef struct		s_my_sem
 {
 	sem_t			*forks;
 }					t_my_sem;
-
 
 typedef struct		s_time
 {
@@ -79,7 +78,6 @@ int					ft_wait(long int ms, t_philo *philo);
 void				*ft_dead(t_philo *philo);
 void				ft_clean(t_philo **philo);
 void				ft_lock_forks(t_philo *philo);
-void				*ft_unlock_forks(t_philo *philo);
 int					ft_check_meal(t_philo *philo);
 
 #endif

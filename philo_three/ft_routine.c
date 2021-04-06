@@ -6,14 +6,18 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/05 16:52:08 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/06 11:12:45 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// log 4f71479
 
 #include "philo_three.h"
 
 int		ft_eat(t_philo *philo)
 {
+	if (ft_gettime() == -1 || ft_dead(philo) || g_time.dead)
+		return (0);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| is eating\n", ft_gettime() - g_time.start,
 	philo->id);
@@ -24,6 +28,8 @@ int		ft_eat(t_philo *philo)
 
 int		ft_sleep(t_philo *philo)
 {
+	if (ft_gettime() == -1 || ft_dead(philo))
+		return (0);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| is sleeping\n", ft_gettime() - g_time.start,
 	philo->id);
@@ -33,6 +39,8 @@ int		ft_sleep(t_philo *philo)
 
 int		ft_think(t_philo *philo)
 {
+	if (ft_gettime() == -1 || ft_dead(philo) || g_time.dead)
+		return (0);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| is thinking\n", ft_gettime() - g_time.start,
 	philo->id);
@@ -48,10 +56,10 @@ void	*ft_dead(t_philo *philo)
 		sem_wait(g_lock);
 		printf("[%ld]\tPhilosopher |%d| died\n", ft_gettime() - g_time.start,
 		philo->id);
-		exit (DEATH);
+		exit(DEATH);
 	}
 	else if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
-		exit (EAT);
+		exit(EAT);
 	else if (philo->nb_of_meal_eat < philo->nb_of_meal ||
 			philo->nb_of_meal == 0)
 		return (NULL);

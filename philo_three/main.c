@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/05 16:05:42 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:12:18 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	ft_init_fork(t_philo **philo)
 		wait(&status);
 		ret = WEXITSTATUS(status);
 		if (ret == DEATH)
-			while (++i < n)
-				kill((*philo)[i].pid, SIGQUIT);
+			while (i < n)
+				kill((*philo)[i++].pid, SIGQUIT);
 		else if (ret == EAT)
 			return ;
 	}
@@ -55,9 +55,7 @@ int		ft_start(char **argv)
 {
 	t_philo	*philo;
 	int		nb_philo;
-	int		i;
 
-	i = -1;
 	if (!ft_check_params(argv))
 		return (0);
 	sem_unlink(SEM_NAME);
