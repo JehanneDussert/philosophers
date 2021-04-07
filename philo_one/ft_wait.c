@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/06 16:02:44 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/07 11:53:57 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int		ft_wait(long int ms, t_philo *philo)
 
 void	ft_mutex(t_philo *philo, pthread_mutex_t *fork)
 {
-	ft_dead(philo);
 	pthread_mutex_lock(fork);
+	if (!ft_dead(philo))
+		return ;
 	pthread_mutex_lock(&g_print);
 	printf("[%ld]\tPhilosopher |%d| has taken a fork\n",
 	ft_gettime() - g_time.start, philo->id);
@@ -39,10 +40,13 @@ void	ft_mutex(t_philo *philo, pthread_mutex_t *fork)
 
 void	*ft_lock_forks(t_philo *philo)
 {
-	if (philo->id % 2)
+	if (g_time.dead || !ft_dead(philo))
+		return (NULL);
+	if (philo->id % 2 && !g_time.dead && ft_dead(philo))
 		ft_mutex(philo, &philo->fork.lock);
-	ft_mutex(philo, &philo->n_fork->lock);
-	if (!(philo->id % 2))
+	if (!g_time.dead && ft_dead(philo))
+		ft_mutex(philo, &philo->n_fork->lock);
+	if (!(philo->id % 2) && !g_time.dead && ft_dead(philo))
 		ft_mutex(philo, &philo->fork.lock);
 	return ("done");
 }
