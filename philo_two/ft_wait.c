@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/06 18:11:50 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/07 12:13:11 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	*ft_lock_forks(t_philo *philo)
 {
 	sem_wait(g_forks.forks);
 	sem_wait(g_forks.forks);
+	if (!ft_dead(philo))
+		return (NULL);
 	sem_wait(g_lock);
 	printf("[%ld]\tPhilosopher |%d| has taken a fork\n",
 	ft_gettime() - g_time.start, philo->id);
