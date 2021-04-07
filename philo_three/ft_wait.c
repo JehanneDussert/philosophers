@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/07 14:37:04 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/07 15:11:45 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*ft_meals(t_philo *philo)
 {
 	if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
 	{
-		g_eat = 1;
+		ft_unlock_forks();
 		exit(EAT);
 	}
 	return (NULL);
@@ -41,7 +41,6 @@ void	*ft_lock_forks(t_philo *philo)
 	sem_wait(g_forks.forks);
 	ft_dead(philo);
 	sem_wait(g_lock);
-	ft_meals(philo);
 	printf("[%ld]\tPhilosopher |%d| has taken a fork\n",
 	ft_gettime() - g_time.start, philo->id);
 	printf("[%ld]\tPhilosopher |%d| has taken a fork\n",

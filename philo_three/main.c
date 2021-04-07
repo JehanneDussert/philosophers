@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/07 14:39:13 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/07 15:08:42 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ void	ft_init_fork(t_philo **philo)
 		if (ret == DEATH)
 			while (++i < n)
 				kill((*philo)[i].pid, SIGQUIT);
-		else if (ret == EAT)
+		else if (ret == EAT && (*philo)[g_nb_forks].nb_of_meal && ft_check_meal(*philo))
+		{
+			printf("ici\n");
 			return ;
+		}
 	}
 }
 
