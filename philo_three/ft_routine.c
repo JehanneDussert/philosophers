@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/07 15:11:41 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/07 15:29:47 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	*ft_routine(void *arg)
 		ft_meals(philo);
 		ft_wait(g_time.time_to_eat, philo);
 		philo->last_meal = ft_gettime();
+		ft_dead(philo);
 		ft_unlock_forks();
 		ft_dead(philo);
 		ft_sleep(philo);
