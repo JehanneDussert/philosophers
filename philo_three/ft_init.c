@@ -6,7 +6,7 @@
 /*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:11:33 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/07 14:10:00 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/07 14:27:02 by jdussert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		ft_init_philo(char **argv, t_philo **philo)
 		printf("[ERROR] Can't open semaphore.\n");
 	else if ((g_lock = sem_open(LOCK, O_CREAT, 644, 1)) == SEM_FAILED)
 		printf("[ERROR] Can't open semaphore.\n");
+	g_eat = 0;
 }
 
 void		ft_init_time(char **argv)
