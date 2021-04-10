@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:11:33 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/07 14:27:02 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/10 12:56:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ void		ft_init_philo(char **argv, t_philo **philo)
 		== SEM_FAILED)
 		printf("[ERROR] Can't open semaphore.\n");
 	else if ((g_lock = sem_open(LOCK, O_CREAT, 644, 1)) == SEM_FAILED)
+	{
+		sem_close(g_forks.forks);
 		printf("[ERROR] Can't open semaphore.\n");
+	}
 	g_eat = 0;
 }
 
