@@ -35,12 +35,8 @@ void	ft_init_fork(t_philo **philo)
 	n = (*philo)[0].nb_philo;
 	g_time.start = ft_gettime();
 	while (++i < n)
-	{
 		if (((*philo)[i].pid = fork()) == 0)
 			ft_routine(&(*philo)[i]);
-		else if (((*philo)[i].pid == -1))
-			ft_clean(philo);
-	}
 	i = -1;
 	while (++i < n)
 	{
@@ -48,19 +44,11 @@ void	ft_init_fork(t_philo **philo)
 		ret = WEXITSTATUS(status);
 		if (ret == DEATH)
 			while (++i < g_nb_forks)
-			{
-			 	kill((*philo)[i].pid, SIGKILL);
-				//sem_close(g_forks.forks);
-				//sem_close(g_lock);
-			}
+				kill((*philo)[i].pid, SIGKILL);
 		else if (ret == EAT && (*philo)[g_nb_forks].nb_of_meal
 			&& ft_check_meal(*philo))
-		{
 			return ;
-		}
 	}
-	//sem_close(g_forks.forks);
-	//sem_close(g_lock);
 }
 
 int		ft_start(char **argv)
