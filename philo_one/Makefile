@@ -2,7 +2,7 @@ NAME = philo_one
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -pthread
 
 SRCS = main.c ft_utils.c ft_print.c ft_routine.c ft_wait.c ft_clean.c ft_init.c
 
