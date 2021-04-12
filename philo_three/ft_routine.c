@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/12 09:29:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:23:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	*ft_dead(t_philo *philo)
 		printf("[%ld]\tPhilosopher |%d| died\n", ft_gettime() - g_time.start,
 		philo->id);
 		ft_simple_clean(&g_philo);
-		free(philo);
-		philo = NULL;
 		exit(DEATH);
 	}
 	return (NULL);

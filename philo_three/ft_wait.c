@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/12 09:26:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:23:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	*ft_meals(t_philo *philo)
 	{
 		ft_unlock_forks();
 		ft_simple_clean(&g_philo);
-		//free(philo);
-		//philo = NULL;
 		exit(EAT);
 	}
 	return (NULL);

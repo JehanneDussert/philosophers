@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:27 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/12 09:14:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:27:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,12 @@
 
 void	ft_simple_clean(t_philo **philo)
 {
-	//int	i;
-
-	//i = -1;
 	sem_close(g_forks.forks);
 	sem_close(g_lock);
 	if (!philo || !(*philo))
 		return ;
-	//while (++i < g_nb_forks)
-	//	kill((*philo)[i].pid, SIGKILL);
-	//free(*philo);
-	//(*philo) = NULL;
+	free(*philo);
+	(*philo) = NULL;
 }
 
 void	ft_clean(t_philo **philo)

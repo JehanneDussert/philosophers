@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/12 09:31:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:28:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	ft_init_fork(t_philo **philo)
 	i = -1;
 	g_philo = (*philo);
 	n = (*philo)[0].nb_philo;
-	if ((g_time.start = ft_gettime()) == -1)
-		return ;
+	g_time.start = ft_gettime();
 	while (++i < n)
 	{
 		if (((*philo)[i].pid = fork()) == 0)
@@ -48,22 +47,20 @@ void	ft_init_fork(t_philo **philo)
 		wait(&status);
 		ret = WEXITSTATUS(status);
 		if (ret == DEATH)
-		{
 			while (++i < g_nb_forks)
-				kill((*philo)[i].pid, SIGKILL);
-			sem_close(g_forks.forks);
-			sem_close(g_lock);
-			//ft_clean(philo);
-		}
+			{
+			 	kill((*philo)[i].pid, SIGKILL);
+				//sem_close(g_forks.forks);
+				//sem_close(g_lock);
+			}
 		else if (ret == EAT && (*philo)[g_nb_forks].nb_of_meal
 			&& ft_check_meal(*philo))
 		{
-			//ft_clean(philo);
-			sem_close(g_forks.forks);
-			sem_close(g_lock);
 			return ;
 		}
 	}
+	//sem_close(g_forks.forks);
+	//sem_close(g_lock);
 }
 
 int		ft_start(char **argv)
