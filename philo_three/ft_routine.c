@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:08 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/10 13:02:08 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/12 09:29:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	*ft_dead(t_philo *philo)
 		sem_wait(g_lock);
 		printf("[%ld]\tPhilosopher |%d| died\n", ft_gettime() - g_time.start,
 		philo->id);
-		sem_post(g_lock);
-		sem_close(g_forks.forks);
-		sem_close(g_lock);
+		ft_simple_clean(&g_philo);
+		free(philo);
+		philo = NULL;
 		exit(DEATH);
 	}
 	return (NULL);
@@ -70,7 +70,9 @@ void	*ft_routine(void *arg)
 	while (!ft_dead(philo))
 	{
 		if (!ft_lock_forks(philo))
+		{
 			return (NULL);
+		}
 		ft_eat(philo);
 		ft_meals(philo);
 		ft_wait(g_time.time_to_eat, philo);

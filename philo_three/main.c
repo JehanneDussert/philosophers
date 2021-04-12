@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:20 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/07 16:10:12 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/12 09:31:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,38 @@ void	ft_init_fork(t_philo **philo)
 	int ret;
 
 	i = -1;
+	g_philo = (*philo);
 	n = (*philo)[0].nb_philo;
 	if ((g_time.start = ft_gettime()) == -1)
 		return ;
 	while (++i < n)
+	{
 		if (((*philo)[i].pid = fork()) == 0)
 			ft_routine(&(*philo)[i]);
+		else if (((*philo)[i].pid == -1))
+			ft_clean(philo);
+	}
 	i = -1;
 	while (++i < n)
 	{
 		wait(&status);
 		ret = WEXITSTATUS(status);
 		if (ret == DEATH)
-			while (++i < n)
+		{
+			while (++i < g_nb_forks)
 				kill((*philo)[i].pid, SIGKILL);
+			sem_close(g_forks.forks);
+			sem_close(g_lock);
+			//ft_clean(philo);
+		}
 		else if (ret == EAT && (*philo)[g_nb_forks].nb_of_meal
 			&& ft_check_meal(*philo))
+		{
+			//ft_clean(philo);
+			sem_close(g_forks.forks);
+			sem_close(g_lock);
 			return ;
+		}
 	}
 }
 

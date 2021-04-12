@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 12:03:15 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/10 13:01:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/04/12 09:26:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	*ft_meals(t_philo *philo)
 	if (philo->nb_of_meal_eat == philo->nb_of_meal && philo->nb_of_meal)
 	{
 		ft_unlock_forks();
-		sem_close(g_forks.forks);
-		sem_close(g_lock);
+		ft_simple_clean(&g_philo);
+		//free(philo);
+		//philo = NULL;
 		exit(EAT);
 	}
 	return (NULL);

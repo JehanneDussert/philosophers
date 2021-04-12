@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_three.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdussert <jdussert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:58:34 by jdussert          #+#    #+#             */
-/*   Updated: 2021/04/07 14:27:12 by jdussert         ###   ########.fr       */
+/*   Updated: 2021/04/10 13:23:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_my_sem			g_forks;
 t_time				g_time;
 sem_t				*g_lock;
 int					g_eat;
+t_philo				*g_philo;
 
 void				ft_putendl(char *str);
 void				ft_init_philo(char **argv, t_philo **philo);
@@ -82,5 +83,6 @@ void				*ft_lock_forks(t_philo *philo);
 void				*ft_unlock_forks(void);
 int					ft_check_meal(t_philo *philo);
 void				*ft_meals(t_philo *philo);
+void				ft_simple_clean(t_philo **philo);
 
 #endif
