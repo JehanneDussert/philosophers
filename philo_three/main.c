@@ -45,7 +45,7 @@ void	ft_init_fork(t_philo **philo)
 		if (ret == DEATH)
 			while (++i < g_nb_forks)
 				kill((*philo)[i].pid, SIGKILL);
-		else if (ret == EAT && (*philo)[g_nb_forks].nb_of_meal
+		else if (ret == EAT && (*philo)[g_nb_forks - 1].nb_of_meal
 			&& ft_check_meal(*philo))
 			return ;
 	}
