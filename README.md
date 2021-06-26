@@ -11,5 +11,5 @@
 - Each module has its own Makefile
 - Call ./philo_xx number_of_philosophers time_to_die time_to_eat time_to_sleep [opt: number_of_times_each_philosopher_must_eat]
 
-## Reference
+## 🖇 Reference
 - [man Linux](http://manpagesfr.free.fr/consulter.html)
